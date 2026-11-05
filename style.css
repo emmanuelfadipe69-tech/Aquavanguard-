@@ -86,91 +86,81 @@ html.intro-on body {
     pointer-events: none;
 }
 
-/* The logo box: water only lives in here, never across the screen */
-.logo {
+/* Keep the water sweep inside a centered window rather than across the screen. */
+.wave-scene {
     position: relative;
-    display: inline-block;
-    padding-bottom: 0.7em;
-    font-size: clamp(1.45rem, 8vw, 3.6rem);
+    isolation: isolate;
+    width: min(88vw, 760px);
+    height: clamp(120px, 24vw, 190px);
+    overflow: hidden;
 }
 
-.letters {
-    display: flex;
-}
-
-.letter {
-    position: relative;
-    display: inline-block;
-    padding: 0 0.025em;
-    font-weight: 800;
-    line-height: 1.05;
-    color: transparent;
-    /* empty glass at first */
-    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.35);
-}
-
-/* Layer 1: water rising inside the letter. Layer 2: final white letter. */
-.letter::before,
-.letter::after {
-    content: attr(data-ch);
+.wave-window {
     position: absolute;
     inset: 0;
-    text-align: center;
-    -webkit-text-stroke: 0;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
 }
 
-.letter::before {
-    background: linear-gradient(180deg, var(--blue-bright), var(--green-bright));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-    clip-path: inset(100% 0 0 0);
-    /* hidden until water arrives */
+.wave {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    overflow: visible;
+    transform: translateX(-100%);
 }
 
-.letter::after {
+.wave path {
+    filter: drop-shadow(0 0 12px rgba(30, 144, 255, 0.35));
+}
+
+.wave-back {
+    bottom: -16%;
+    fill: rgba(91, 190, 235, 0.88);
+}
+
+.wave-front {
+    bottom: -23%;
+    fill: rgba(209, 242, 255, 0.94);
+}
+
+.intro-brand {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    padding: 0 0.4rem;
+    display: flex;
+    justify-content: center;
     color: var(--white);
-    opacity: 0;
+    gap: 0.055em;
+    font-size: clamp(1.45rem, 7.8vw, 4.25rem);
+    font-weight: 800;
+    line-height: 1.1;
+    text-align: center;
+    white-space: nowrap;
+    text-shadow: 0 2px 18px rgba(10, 37, 64, 0.7);
+    opacity: 1;
+    transform: translate(-50%, -50%);
 }
 
-/* The first A is half blue, half green */
-.letter.brand::after {
+.intro-brand span {
+    display: inline-block;
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+}
+
+.intro-brand span:first-child {
     background: var(--a-split);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
-}
-
-/* The stream of water under the letters, flowing from A to D */
-.stream {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 0.22em;
-    border-radius: 999px;
-    background: linear-gradient(90deg, var(--blue-bright), var(--green-bright), var(--blue-bright));
-    background-size: 200% 100%;
-    box-shadow: 0 0 14px rgba(46, 204, 113, 0.6);
-    transform-origin: left center;
-    transform: scaleX(0);
-}
-
-/* The water droplet at the head of the stream */
-.drop {
-    position: absolute;
-    left: 0;
-    bottom: -0.165em;
-    width: 0.55em;
-    height: 0.55em;
-    margin-left: -0.27em;
-    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-    background: radial-gradient(circle at 35% 30%, #fff, var(--blue-bright) 55%, var(--green-bright));
-    box-shadow: 0 0 12px rgba(30, 144, 255, 0.8);
-    opacity: 0;
-    transform: scale(0);
+    text-shadow: none;
 }
 
 .tagline {
@@ -188,21 +178,7 @@ html.intro-on body {
     opacity: 0.55;
 }
 
-/* ---- Timeline (starts when app.js adds .play) ----
-   0.0 - 0.4s  droplet forms on the A
-   0.4 - 2.8s  water flows through all 12 letters
-   2.7 - 3.1s  tagline fades in
-   3.5 - 4.0s  intro fades out, landing page is ready                */
-
-@keyframes rise {
-    from {
-        clip-path: inset(100% 0 0 0);
-    }
-
-    to {
-        clip-path: inset(0 0 0 0);
-    }
-}
+/* ---- Intro animation (starts when app.js adds .play) ---- */
 
 @keyframes fadeIn {
     from {
@@ -214,80 +190,94 @@ html.intro-on body {
     }
 }
 
-@keyframes fadeOut {
+@keyframes wavePass {
     from {
-        opacity: 1;
+        transform: translateX(-100%);
     }
 
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes waveFade {
     to {
         opacity: 0;
     }
 }
 
-@keyframes flow {
-    from {
-        transform: scaleX(0);
-    }
-
-    to {
-        transform: scaleX(1);
-    }
-}
-
-@keyframes shimmer {
-    to {
-        background-position: -200% 0;
-    }
-}
-
-@keyframes dropForm {
-    from {
-        opacity: 0;
-        transform: scale(0);
-    }
-
+@keyframes revealLetter {
     to {
         opacity: 1;
-        transform: scale(1);
+        clip-path: inset(0);
     }
 }
 
-@keyframes dropTravel {
-    from {
-        left: 0;
-    }
-
-    to {
-        left: 100%;
-    }
-}
-
-.intro.play .letter::before {
+.intro.play .wave {
     animation:
-        rise 0.4s ease-out var(--d) forwards,
-        fadeOut 0.3s ease calc(var(--d) + 0.5s) forwards;
+        wavePass 2.15s cubic-bezier(0.35, 0.05, 0.2, 1) 0.1s both,
+        waveFade 0.4s ease 2.65s forwards;
 }
 
-.intro.play .letter::after {
-    animation: fadeIn 0.3s ease calc(var(--d) + 0.5s) forwards;
+.intro.play .wave-front {
+    animation-duration: 2.15s, 0.4s;
+    animation-delay: 0.18s, 2.65s;
 }
 
-.intro.play .stream {
-    animation:
-        flow 2.4s linear 0.4s forwards,
-        shimmer 1.2s linear infinite,
-        fadeOut 0.4s ease 3s forwards;
+.intro.play .intro-brand span {
+    animation: revealLetter 0.22s ease-out forwards;
 }
 
-.intro.play .drop {
-    animation:
-        dropForm 0.4s ease-out forwards,
-        dropTravel 2.4s linear 0.4s forwards,
-        fadeOut 0.3s ease 2.8s forwards;
+.intro.play .intro-brand span:nth-child(1) {
+    animation-delay: 0.25s;
+}
+
+.intro.play .intro-brand span:nth-child(2) {
+    animation-delay: 0.40s;
+}
+
+.intro.play .intro-brand span:nth-child(3) {
+    animation-delay: 0.55s;
+}
+
+.intro.play .intro-brand span:nth-child(4) {
+    animation-delay: 0.70s;
+}
+
+.intro.play .intro-brand span:nth-child(5) {
+    animation-delay: 0.85s;
+}
+
+.intro.play .intro-brand span:nth-child(6) {
+    animation-delay: 1.00s;
+}
+
+.intro.play .intro-brand span:nth-child(7) {
+    animation-delay: 1.15s;
+}
+
+.intro.play .intro-brand span:nth-child(8) {
+    animation-delay: 1.30s;
+}
+
+.intro.play .intro-brand span:nth-child(9) {
+    animation-delay: 1.45s;
+}
+
+.intro.play .intro-brand span:nth-child(10) {
+    animation-delay: 1.60s;
+}
+
+.intro.play .intro-brand span:nth-child(11) {
+    animation-delay: 1.75s;
+}
+
+.intro.play .intro-brand span:nth-child(12) {
+    animation-delay: 1.90s;
 }
 
 .intro.play .tagline {
-    animation: fadeIn 0.4s ease 2.7s forwards;
+    animation: fadeIn 0.5s ease 2.25s forwards;
 }
 
 /* =====================================================

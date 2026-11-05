@@ -31,26 +31,21 @@
 
 <body>
 
-    <!-- ============ 4-SECOND INTRO (water writes the logo) ============ -->
+    <!-- ============ 4-SECOND INTRO (a centered wave reveals the brand) ============ -->
     <div id="intro" class="intro" aria-hidden="true">
-        <div class="logo">
-            <div class="letters">
-                <!-- --d = the moment (in seconds) the water reaches this letter -->
-                <span class="letter brand" data-ch="A" style="--d:.40s">A</span>
-                <span class="letter" data-ch="Q" style="--d:.58s">Q</span>
-                <span class="letter" data-ch="U" style="--d:.76s">U</span>
-                <span class="letter" data-ch="A" style="--d:.94s">A</span>
-                <span class="letter" data-ch="V" style="--d:1.12s">V</span>
-                <span class="letter" data-ch="A" style="--d:1.30s">A</span>
-                <span class="letter" data-ch="N" style="--d:1.48s">N</span>
-                <span class="letter" data-ch="G" style="--d:1.66s">G</span>
-                <span class="letter" data-ch="U" style="--d:1.84s">U</span>
-                <span class="letter" data-ch="A" style="--d:2.02s">A</span>
-                <span class="letter" data-ch="R" style="--d:2.20s">R</span>
-                <span class="letter" data-ch="D" style="--d:2.38s">D</span>
+        <div class="wave-scene">
+            <div class="wave-window" aria-hidden="true">
+                <svg class="wave wave-back" viewBox="0 0 1600 240" preserveAspectRatio="none">
+                    <path d="M0 85 C110 25 290 25 400 85 C510 145 690 145 800 85 C910 25 1090 25 1200 85 C1310 145 1490 145 1600 85 V240 H0 Z" />
+                </svg>
+                <svg class="wave wave-front" viewBox="0 0 1600 240" preserveAspectRatio="none">
+                    <path d="M0 105 C110 45 290 45 400 105 C510 165 690 165 800 105 C910 45 1090 45 1200 105 C1310 165 1490 165 1600 105 V240 H0 Z" />
+                </svg>
             </div>
-            <span class="stream"></span>
-            <span class="drop"></span>
+            <h1 class="intro-brand" aria-label="AquaVanguard">
+                <span>A</span><span>Q</span><span>U</span><span>A</span><span>V</span><span>A</span>
+                <span>N</span><span>G</span><span>U</span><span>A</span><span>R</span><span>D</span>
+            </h1>
         </div>
         <p class="tagline">Find unsafe water. Treat it. Prove it's cleaner.</p>
         <p class="skip-hint">Tap anywhere to skip</p>
