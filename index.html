@@ -31,20 +31,52 @@
 
 <body>
 
-    <!-- ============ 4-SECOND INTRO (a centered wave reveals the brand) ============ -->
+    <!-- ============ 4-SECOND INTRO (localized water reveals the brand) ============ -->
     <div id="intro" class="intro" aria-hidden="true">
-        <div class="wave-scene">
-            <div class="wave-window" aria-hidden="true">
-                <svg class="wave wave-back" viewBox="0 0 1600 240" preserveAspectRatio="none">
-                    <path d="M0 85 C110 25 290 25 400 85 C510 145 690 145 800 85 C910 25 1090 25 1200 85 C1310 145 1490 145 1600 85 V240 H0 Z" />
-                </svg>
-                <svg class="wave wave-front" viewBox="0 0 1600 240" preserveAspectRatio="none">
-                    <path d="M0 105 C110 45 290 45 400 105 C510 165 690 165 800 105 C910 45 1090 45 1200 105 C1310 165 1490 165 1600 105 V240 H0 Z" />
-                </svg>
-            </div>
-            <h1 class="intro-brand" aria-label="AquaVanguard">
-                <span>A</span><span>Q</span><span>U</span><span>A</span><span>V</span><span>A</span>
-                <span>N</span><span>G</span><span>U</span><span>A</span><span>R</span><span>D</span>
+        <div class="intro-stage">
+            <h1 class="intro-brand intro-brand-base" aria-hidden="true">AQUAVANGUARD</h1>
+            <svg class="intro-current" viewBox="0 0 760 190" preserveAspectRatio="none" aria-hidden="true">
+                <defs>
+                    <linearGradient id="current-body" x1="0" y1="0" x2="0.15" y2="1">
+                        <stop offset="0" stop-color="#e9fbff" stop-opacity="0.82" />
+                        <stop offset="0.24" stop-color="#8bdaf3" stop-opacity="0.88" />
+                        <stop offset="0.56" stop-color="#328fc3" stop-opacity="0.94" />
+                        <stop offset="0.82" stop-color="#b4edfa" stop-opacity="0.88" />
+                        <stop offset="1" stop-color="#effcff" stop-opacity="0.7" />
+                    </linearGradient>
+                    <linearGradient id="current-shadow" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" stop-color="#176798" stop-opacity="0.05" />
+                        <stop offset="0.52" stop-color="#084a7b" stop-opacity="0.72" />
+                        <stop offset="1" stop-color="#45a8d0" stop-opacity="0.04" />
+                    </linearGradient>
+                    <linearGradient id="current-glint" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0" stop-color="#fff" stop-opacity="0" />
+                        <stop offset="0.3" stop-color="#f4fdff" stop-opacity="0.92" />
+                        <stop offset="0.72" stop-color="#c5f2ff" stop-opacity="0.72" />
+                        <stop offset="1" stop-color="#fff" stop-opacity="0" />
+                    </linearGradient>
+                </defs>
+                <g class="current-flow">
+                    <path class="current-underlay" fill="url(#current-shadow)"
+                        d="M-20 91 C49 80 78 39 150 45 C220 51 241 92 306 104 C371 116 413 149 478 139 C549 128 580 80 633 56 C685 32 724 39 780 55 L780 126 C727 111 690 101 642 117 C584 137 548 173 476 177 C396 181 355 149 291 141 C216 132 188 106 134 108 C75 110 30 139 -20 137 Z" />
+                    <path class="current-body" fill="url(#current-body)"
+                        d="M-20 77 C53 67 83 31 151 37 C220 43 245 84 310 96 C376 108 416 140 477 130 C545 119 581 72 634 48 C687 25 727 32 780 47 L780 108 C728 96 692 88 646 103 C588 122 550 157 478 163 C400 169 358 139 294 131 C218 122 189 98 136 100 C77 102 29 129 -20 127 Z" />
+                    <path class="current-highlight" fill="none" stroke="url(#current-glint)" stroke-width="5"
+                        d="M-10 81 C57 72 87 38 151 43 C218 48 247 87 310 101 C374 115 418 146 478 136 C547 124 581 77 635 53 C684 31 726 37 771 52" />
+                    <path class="current-highlight current-highlight-low" fill="none" stroke="#e4faff"
+                        stroke-opacity="0.7" stroke-width="2"
+                        d="M-10 119 C51 121 79 96 136 95 C195 94 222 119 291 130 C359 141 402 167 477 160 C551 153 592 118 645 104 C691 92 728 99 771 111" />
+                    <g class="current-spray" fill="#eafaff">
+                        <circle cx="655" cy="43" r="2.1" />
+                        <circle cx="668" cy="32" r="1.2" />
+                        <circle cx="704" cy="26" r="1.7" />
+                        <circle cx="716" cy="37" r="1" />
+                        <circle cx="746" cy="41" r="1.5" />
+                    </g>
+                </g>
+            </svg>
+            <h1 class="intro-brand intro-brand-water" aria-label="AquaVanguard">
+                <span>A</span><span>Q</span><span>U</span><span>A</span><span>V</span><span>A</span><span>N</span><span>G</span><span>U</span><span>A</span><span>R</span><span>D</span>
             </h1>
         </div>
         <p class="tagline">Find unsafe water. Treat it. Prove it's cleaner.</p>
@@ -57,8 +89,8 @@
         <nav class="nav" aria-label="Main">
             <a href="map.html">Map</a>
             <a href="diagnose.html">Diagnose</a>
-            <a href="blueprints.html">Blueprints</a>
-            <a href="community.html">Community</a>
+            <a href="blueprints.html">Act</a>
+            <a href="community.html">Verify</a>
             <a class="nav-cta" href="report.html">Report</a>
         </nav>
     </header>
@@ -89,12 +121,12 @@
                 <a class="step" href="diagnose.html">
                     <span class="num">2</span>
                     <h3>Diagnose</h3>
-                    <p>Follow a simple test guide to get a risk level for the source.</p>
+                    <p>Screen for warning signs and see what follow-up is needed—not a substitute for water testing.</p>
                 </a>
                 <a class="step" href="blueprints.html">
                     <span class="num">3</span>
                     <h3>Act</h3>
-                    <p>Get a low-cost treatment design that works offline.</p>
+                    <p>Choose cautious next steps based on the water concern and its possible hazards.</p>
                 </a>
                 <a class="step" href="community.html">
                     <span class="num">4</span>
@@ -132,7 +164,7 @@
                 <li><i class="dot risk-mid"></i> Medium</li>
                 <li><i class="dot risk-low"></i> Low</li>
             </ul>
-            <p class="fineprint">Preview only. The live map comes in a later step.</p>
+            <p class="fineprint">Demo preview with illustrative sample reports, not live water-quality data.</p>
         </section>
 
         <section class="section">
@@ -153,8 +185,8 @@
             <a href="map.html">Map</a>
             <a href="report.html">Report</a>
             <a href="diagnose.html">Diagnose</a>
-            <a href="blueprints.html">Blueprints</a>
-            <a href="community.html">Community</a>
+            <a href="blueprints.html">Act</a>
+            <a href="community.html">Verify</a>
         </nav>
         <p>&copy; <span id="year"></span> AquaVanguard &middot; Water Quality &middot; Community Action</p>
     </footer>

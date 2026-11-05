@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Take action &middot; AquaVanguard</title>
+    <meta name="theme-color" content="#0A2540">
+    <meta name="description"
+        content="Practical, cautious next steps for water concerns, with clear limits on household treatment.">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page act-page">
+
+    <header class="site-header">
+        <a class="wordmark" href="index.html"><span class="a">A</span>QUAVANGUARD</a>
+        <nav class="nav" aria-label="Main">
+            <a href="map.html">Map</a>
+            <a href="diagnose.html">Diagnose</a>
+            <a href="blueprints.html" aria-current="page">Act</a>
+            <a href="community.html">Verify</a>
+            <a class="nav-cta" href="report.html">Report</a>
+        </nav>
+    </header>
+
+    <main>
+        <a class="back" href="diagnose.html">&larr; Back to observation screening</a>
+
+        <section class="page-hero">
+            <span class="step-tag">Step 3 &middot; Act</span>
+            <h1>Choose a safer next step</h1>
+            <p class="lead">Treatment depends on the hazard. Start with the concern you have; if the hazard is unknown, use a known safe source and get local advice.</p>
+        </section>
+
+        <section class="act-app" aria-label="Water safety action guidance">
+            <div class="act-emergency" role="note">
+                <strong>Possible fuel or toxic chemical contamination?</strong>
+                <p>Do not drink or cook with this water. Boiling, settling, and improvised filters may not remove chemicals. Avoid contact and use a known safe alternative while seeking advice from local water or public-health authorities.</p>
+            </div>
+
+            <section class="act-chooser" aria-labelledby="act-chooser-title">
+                <h2 id="act-chooser-title">What is your main concern?</h2>
+                <p>This selects relevant precautionary guidance; it does not identify contaminants or determine that water is safe.</p>
+                <div class="act-options" role="group" aria-label="Select a water concern">
+                    <button class="act-option is-active" type="button" data-concern="unknown" aria-pressed="true">
+                        <strong>Not sure / no test</strong>
+                        <span>Safety is unknown</span>
+                    </button>
+                    <button class="act-option" type="button" data-concern="microbial" aria-pressed="false">
+                        <strong>Germs or flooding</strong>
+                        <span>Possible faecal or microbial contamination</span>
+                    </button>
+                    <button class="act-option" type="button" data-concern="cloudy" aria-pressed="false">
+                        <strong>Cloudy or muddy water</strong>
+                        <span>Visible particles or sediment</span>
+                    </button>
+                    <button class="act-option" type="button" data-concern="chemical" aria-pressed="false">
+                        <strong>Fuel or chemical spill</strong>
+                        <span>Possible spill or unusual contamination</span>
+                    </button>
+                </div>
+            </section>
+
+            <section id="act-guidance" class="act-guidance" aria-live="polite" tabindex="-1">
+                <span id="act-guidance-label" class="act-guidance-label">Safety unknown</span>
+                <h2 id="act-guidance-title">Do not assume untreated water is safe.</h2>
+                <p id="act-guidance-summary"></p>
+                <h3>Recommended next steps</h3>
+                <ol id="act-guidance-steps" class="act-guidance-steps"></ol>
+                <p id="act-guidance-caution" class="act-guidance-caution"></p>
+            </section>
+
+            <section class="filter-blueprint" aria-labelledby="filter-blueprint-title">
+                <div>
+                    <span class="step-tag">Low-cost prototype concept</span>
+                    <h2 id="filter-blueprint-title">A filter can improve clarity—not prove safety</h2>
+                    <p>A locally built cloth or sand-and-gravel filter may reduce visible particles as a pre-treatment step. It is not a validated drinking-water treatment design and may not remove bacteria, viruses, or dissolved chemicals.</p>
+                </div>
+                <ol class="filter-blueprint-steps">
+                    <li><strong>Inspect and report:</strong> Note the source, location, date, and visible concern. Do not enter unsafe water or touch suspected chemicals.</li>
+                    <li><strong>Separate solids only if appropriate:</strong> Allowing sediment to settle or using a clean cloth can clarify water, but does not make it safe to drink.</li>
+                    <li><strong>Use a hazard-appropriate treatment:</strong> For suspected germs only, follow local public-health advice. A rolling boil can kill many disease-causing germs; it does not remove fuel or toxic chemicals.</li>
+                    <li><strong>Protect treated water:</strong> Cool and store it in a clean, covered container; avoid dipping hands or cups into the stored water.</li>
+                    <li><strong>Verify:</strong> Retest with an appropriate validated method or qualified laboratory. Do not label water safe based only on clarity or a single indicator.</li>
+                </ol>
+            </section>
+
+            <section class="act-verification" aria-labelledby="act-verify-title">
+                <div>
+                    <h2 id="act-verify-title">Close the loop: verify improvement</h2>
+                    <p>After an intervention, compare before-and-after results using the same suitable test method where possible. Record who tested it, when, what was measured, and whether the result was independently verified.</p>
+                </div>
+                <a class="btn btn-primary" href="community.html">Continue to verification &rarr;</a>
+            </section>
+
+            <section class="act-references" aria-labelledby="act-references-title">
+                <h2 id="act-references-title">Guidance sources</h2>
+                <ul>
+                    <li><a href="https://www.cdc.gov/water-emergency/about/index.html" target="_blank" rel="noopener noreferrer">CDC: How to Make Water Safe in an Emergency</a> — boiling, cloudy water pre-treatment, storage, and limits for fuel or toxic chemicals.</li>
+                    <li><a href="https://www.cdc.gov/drinking-water/about/about-home-water-treatment-systems.html" target="_blank" rel="noopener noreferrer">CDC: About Home Water Treatment Systems</a> — treatment systems vary; choose based on water testing and the specific contaminant.</li>
+                    <li><a href="https://www.who.int/publications/i/item/9789240045064" target="_blank" rel="noopener noreferrer">WHO Guidelines for Drinking-water Quality</a> — health-based guidance and risk management.</li>
+                </ul>
+                <p>Follow current local advisories and product instructions. This page is general guidance, not a local water-quality determination.</p>
+            </section>
+        </section>
+
+        <div class="page-nav">
+            <a class="btn btn-ghost" href="diagnose.html">&larr; Back to Diagnose</a>
+            <a class="btn btn-primary" href="community.html">Next: Verify &rarr;</a>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <nav class="footer-nav" aria-label="Footer">
+            <a href="index.html">Home</a>
+            <a href="map.html">Map</a>
+            <a href="report.html">Report</a>
+            <a href="diagnose.html">Diagnose</a>
+            <a href="blueprints.html">Act</a>
+            <a href="community.html">Verify</a>
+        </nav>
+        <p>&copy; <span id="year"></span> AquaVanguard &middot; Water Quality &middot; Community Action</p>
+    </footer>
+
+    <script src="app.js"></script>
+    <script src="act.js"></script>
+</body>
+
+</html>

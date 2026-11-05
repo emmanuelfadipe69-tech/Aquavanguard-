@@ -16,8 +16,8 @@
         <nav class="nav" aria-label="Main">
             <a href="map.html">Map</a>
             <a href="diagnose.html">Diagnose</a>
-            <a href="blueprints.html">Blueprints</a>
-            <a href="community.html">Community</a>
+            <a href="blueprints.html">Act</a>
+            <a href="community.html">Verify</a>
             <a class="nav-cta" href="report.html">Report</a>
         </nav>
     </header>
@@ -27,19 +27,229 @@
 
         <section class="page-hero">
             <span class="step-tag">Step 2 &middot; Diagnose</span>
-            <h1>Diagnose the water</h1>
-            <p class="lead">Follow a simple test guide to get a risk level for the source.</p>
+            <h1>Observation screening</h1>
+            <p class="lead">Record visible warning signs and decide what follow-up may be appropriate. This screening does not diagnose water quality.</p>
         </section>
 
-        <section class="section">
-            <div class="coming-soon">
-                <strong>Coming next</strong>
-                <p>This page will be built in a later step.</p>
+        <section class="diagnose-app" aria-label="Water source observation screening">
+            <div class="diagnose-notice" role="note">
+                <strong>Observation screening only — not a water-quality test or diagnosis.</strong>
+                Clear-looking water can contain germs or chemicals. Never taste water to assess it, and avoid touching
+                water that may contain sewage, fuel, or chemicals.
+            </div>
+
+            <div id="diagnose-source-context" class="diagnose-source-context" role="status" hidden></div>
+
+            <form id="diagnose-form" class="diagnose-form">
+                <fieldset class="diagnose-question">
+                    <legend><span class="diagnose-step">1</span> What does the water look like?</legend>
+                    <div class="diagnose-options">
+                        <label class="diagnose-option">
+                            <input type="radio" name="appearance" value="clear" required>
+                            <span>No obvious change in appearance</span>
+                        </label>
+                        <label class="diagnose-option">
+                            <input type="radio" name="appearance" value="cloudy">
+                            <span>Cloudy, unusually colored, or has sediment</span>
+                        </label>
+                        <label class="diagnose-option">
+                            <input type="radio" name="appearance" value="severe">
+                            <span>Foam or floating waste</span>
+                        </label>
+                        <label class="diagnose-option">
+                            <input type="radio" name="appearance" value="oil">
+                            <span>Oil-like sheen or rainbow film (possible fuel/chemical contamination)</span>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <fieldset class="diagnose-question">
+                    <legend><span class="diagnose-step">2</span> Is there an unusual smell?</legend>
+                    <div class="diagnose-options">
+                        <label class="diagnose-option">
+                            <input type="radio" name="smell" value="none" required>
+                            <span>No unusual smell</span>
+                        </label>
+                        <label class="diagnose-option">
+                            <input type="radio" name="smell" value="unusual">
+                            <span>Musty, sewage-like, fuel-like, chemical, or otherwise unusual</span>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <fieldset class="diagnose-question">
+                    <legend><span class="diagnose-step">3</span> Have you seen a nearby pollution source?</legend>
+                    <div class="diagnose-options">
+                        <label class="diagnose-option">
+                            <input type="radio" name="pollution" value="none" required>
+                            <span>No obvious pollution source nearby</span>
+                        </label>
+                        <label class="diagnose-option">
+                            <input type="radio" name="pollution" value="runoff">
+                            <span>Drainage, waste, or animal activity near the source</span>
+                        </label>
+                        <label class="diagnose-option">
+                            <input type="radio" name="pollution" value="sewage">
+                            <span>Possible sewage discharge near the source</span>
+                        </label>
+                        <label class="diagnose-option">
+                            <input type="radio" name="pollution" value="spill">
+                            <span>Possible fuel or chemical spill</span>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <fieldset class="diagnose-question">
+                    <legend><span class="diagnose-step">4</span> Has the source or surrounding area flooded recently?</legend>
+                    <div class="diagnose-options">
+                        <label class="diagnose-option">
+                            <input type="radio" name="flooding" value="no" required>
+                            <span>No flooding known</span>
+                        </label>
+                        <label class="diagnose-option">
+                            <input type="radio" name="flooding" value="yes">
+                            <span>Yes, or floodwater may have entered the source</span>
+                        </label>
+                        <label class="diagnose-option">
+                            <input type="radio" name="flooding" value="unsure">
+                            <span>Not sure</span>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <div class="diagnose-actions">
+                    <button class="btn btn-primary" type="submit">See screening guidance</button>
+                    <button class="btn btn-ghost" type="reset">Clear answers</button>
+                </div>
+            </form>
+
+            <section id="diagnose-result" class="diagnose-result" aria-live="polite" tabindex="-1" hidden>
+                <span id="diagnose-result-level" class="diagnose-result-level"></span>
+                <h2 id="diagnose-result-title"></h2>
+                <p id="diagnose-result-summary"></p>
+                <h3>Why this guidance appeared</h3>
+                <p id="diagnose-result-method" class="diagnose-result-method"></p>
+                <ul id="diagnose-result-reasons" class="diagnose-result-reasons"></ul>
+                <h3>What to do next</h3>
+                <ul id="diagnose-result-actions"></ul>
+                <p class="diagnose-result-limit">
+                    This screening only reflects the observations you selected. It cannot detect germs, metals, or
+                    other invisible contaminants and does not establish whether water is safe.
+                </p>
+                <div class="diagnose-result-links">
+                    <a class="btn btn-ghost" href="map.html">View community map</a>
+                    <a id="diagnose-action-link" class="btn btn-ghost" href="blueprints.html?concern=unknown">Explore treatment guidance</a>
+                </div>
+            </section>
+
+            <section class="diagnose-demo" aria-labelledby="diagnose-demo-title">
+                <div class="diagnose-demo-heading">
+                    <span class="diagnose-demo-badge">SIMULATION · SAMPLE DATA</span>
+                    <h2 id="diagnose-demo-title">Follow a sample from source to action</h2>
+                    <p>Choose a fictional sample to see how recorded test indicators could trigger follow-up. Every
+                        reading below is simulated; this page does not test water or establish a real source as safe.</p>
+                </div>
+                <div class="diagnose-demo-flow" aria-label="Example test workflow">
+                    <div class="diagnose-demo-step">
+                        <span>01</span>
+                        <strong>Sample</strong>
+                        <small>Choose a fictional source</small>
+                    </div>
+                    <div class="diagnose-demo-step">
+                        <span>02</span>
+                        <strong>Test indicators</strong>
+                        <small>Illustrative test record</small>
+                    </div>
+                    <div class="diagnose-demo-step">
+                        <span>03</span>
+                        <strong>Guidance</strong>
+                        <small>Precautionary next steps</small>
+                    </div>
+                </div>
+                <label class="diagnose-demo-select-label" for="diagnose-demo-sample">Choose sample scenario</label>
+                <select id="diagnose-demo-sample" class="diagnose-demo-select">
+                    <option value="no-indicator">DEMO-001 · no E. coli detected in example</option>
+                    <option value="indicator-detected">DEMO-002 · E. coli detected in example</option>
+                </select>
+                <div class="diagnose-demo-actions">
+                    <button id="run-diagnose-demo" class="btn btn-primary" type="button">Run simulated check</button>
+                    <button id="reset-diagnose-demo" class="btn btn-ghost" type="button" hidden>Hide example</button>
+                </div>
+                <div id="diagnose-demo-result" class="diagnose-demo-result" aria-live="polite" hidden>
+                    <div class="diagnose-demo-result-heading">
+                        <span class="diagnose-demo-badge">SIMULATED RESULT · NOT A REAL TEST</span>
+                        <strong id="diagnose-demo-outcome"></strong>
+                    </div>
+                    <dl id="diagnose-demo-readings" class="diagnose-demo-readings"></dl>
+                    <h3>How the example was interpreted</h3>
+                    <p id="diagnose-demo-guidance" class="diagnose-demo-guidance"></p>
+                    <h3>Suggested next step in this scenario</h3>
+                    <p id="diagnose-demo-action"></p>
+                    <a id="diagnose-demo-action-link" class="btn btn-ghost diagnose-demo-action-link"
+                        href="blueprints.html?concern=unknown">View matching action guidance</a>
+                    <p class="diagnose-demo-reference">Reference: <a
+                            href="https://www.who.int/publications/i/item/9789240045064" target="_blank"
+                            rel="noopener noreferrer">WHO Guidelines for drinking-water quality</a> state that E. coli
+                        should not be detectable in any 100 mL sample. This one indicator does not cover all hazards.</p>
+                    <p class="diagnose-demo-limit">A real result flow would need a validated test method, traceable
+                        sample details, appropriate interpretation guidance, and verification by a qualified source.
+                        This prototype does not connect to test equipment, laboratories, or a results database. The
+                        no-detection example means only that this fictional indicator did not trigger a flag; it is
+                        not a declaration that water is safe.</p>
+                </div>
+            </section>
+
+            <section class="test-record" aria-labelledby="test-record-title">
+                <h2 id="test-record-title">Have a water-test result?</h2>
+                <p>Record the result exactly as shown on the kit or laboratory report. This demo does not validate,
+                    interpret, upload, or save test results.</p>
+                <form id="test-record-form" class="test-record-form">
+                    <label>
+                        Test source
+                        <select name="testSource" required>
+                            <option value="">Choose one</option>
+                            <option value="home">Home test kit</option>
+                            <option value="laboratory">Laboratory report</option>
+                        </select>
+                    </label>
+                    <label>
+                        What was tested?
+                        <select name="parameter" required>
+                            <option value="">Choose one</option>
+                            <option value="E. coli / indicator bacteria">E. coli / indicator bacteria</option>
+                            <option value="Turbidity">Turbidity</option>
+                            <option value="pH">pH</option>
+                            <option value="Free chlorine">Free chlorine</option>
+                            <option value="Other (use report name)">Other (use report name)</option>
+                        </select>
+                    </label>
+                    <label>
+                        Result as written (include units if shown)
+                        <input name="testResult" type="text" maxlength="120" required
+                            placeholder="For example: 2 NTU, detected, or ND">
+                    </label>
+                    <label>
+                        Test date
+                        <input name="testDate" type="date" required>
+                    </label>
+                    <div class="test-record-actions">
+                        <button class="btn btn-primary" type="submit">Show entered record</button>
+                        <button class="btn btn-ghost" type="reset">Clear test record</button>
+                    </div>
+                </form>
+                <div id="test-record-output" class="test-record-output" role="status" hidden></div>
+                <p class="test-record-privacy">Entries only appear on this page and disappear when it is reloaded. Do not enter personal or confidential information.</p>
+            </section>
+
+            <div class="safety diagnose-safety">
+                <strong>When in doubt, don't drink it untreated.</strong>
+                <p>Use a known safe alternative and contact local public-health or water authorities. Boiling and household
+                    filters do not remove every chemical contaminant and are not a substitute for water testing.</p>
             </div>
         </section>
 
         <div class="page-nav">
-            <a class="btn btn-primary" href="blueprints.html">Next: Blueprints &rarr;</a>
+            <a class="btn btn-primary" href="blueprints.html">Next: Treatment guidance &rarr;</a>
         </div>
     </main>
 
@@ -49,13 +259,15 @@
             <a href="map.html">Map</a>
             <a href="report.html">Report</a>
             <a href="diagnose.html">Diagnose</a>
-            <a href="blueprints.html">Blueprints</a>
-            <a href="community.html">Community</a>
+            <a href="blueprints.html">Act</a>
+            <a href="community.html">Verify</a>
         </nav>
         <p>&copy; <span id="year"></span> AquaVanguard &middot; Water Quality &middot; Community Action</p>
     </footer>
 
     <script src="app.js"></script>
+    <script src="data.js"></script>
+    <script src="diagnose.js"></script>
 </body>
 
 </html>
