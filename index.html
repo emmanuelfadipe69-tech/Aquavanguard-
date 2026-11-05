@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AquaVanguard</title>
+    <meta name="theme-color" content="#0A2540">
+    <meta name="description"
+        content="AquaVanguard helps communities find unsafe water, treat it, and prove it's cleaner.">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Decides BEFORE the page paints whether the 4-second intro should play.
+       It is skipped on repeat visits (same session), for people who prefer
+       reduced motion, and on very low-memory phones. -->
+    <script>
+        (function () {
+            var root = document.documentElement;
+            try {
+                var seen = sessionStorage.getItem('aqv-intro') === '1';
+                var reduce = window.matchMedia &&
+                    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                var lowEnd = navigator.deviceMemory && navigator.deviceMemory <= 1;
+                if (!seen && !reduce && !lowEnd) root.classList.add('intro-on');
+            } catch (e) {
+                root.classList.add('intro-on');
+            }
+        })();
+    </script>
+</head>
+
+<body>
+
+    <!-- ============ 4-SECOND INTRO (water writes the logo) ============ -->
+    <div id="intro" class="intro" aria-hidden="true">
+        <div class="logo">
+            <div class="letters">
+                <!-- --d = the moment (in seconds) the water reaches this letter -->
+                <span class="letter brand" data-ch="A" style="--d:.40s">A</span>
+                <span class="letter" data-ch="Q" style="--d:.58s">Q</span>
+                <span class="letter" data-ch="U" style="--d:.76s">U</span>
+                <span class="letter" data-ch="A" style="--d:.94s">A</span>
+                <span class="letter" data-ch="V" style="--d:1.12s">V</span>
+                <span class="letter" data-ch="A" style="--d:1.30s">A</span>
+                <span class="letter" data-ch="N" style="--d:1.48s">N</span>
+                <span class="letter" data-ch="G" style="--d:1.66s">G</span>
+                <span class="letter" data-ch="U" style="--d:1.84s">U</span>
+                <span class="letter" data-ch="A" style="--d:2.02s">A</span>
+                <span class="letter" data-ch="R" style="--d:2.20s">R</span>
+                <span class="letter" data-ch="D" style="--d:2.38s">D</span>
+            </div>
+            <span class="stream"></span>
+            <span class="drop"></span>
+        </div>
+        <p class="tagline">Find unsafe water. Treat it. Prove it's cleaner.</p>
+        <p class="skip-hint">Tap anywhere to skip</p>
+    </div>
+
+    <!-- ============ LANDING PAGE ============ -->
+    <header class="site-header">
+        <a class="wordmark" href="index.html"><span class="a">A</span>QUAVANGUARD</a>
+        <nav class="nav" aria-label="Main">
+            <a href="map.html">Map</a>
+            <a href="diagnose.html">Diagnose</a>
+            <a href="blueprints.html">Blueprints</a>
+            <a href="community.html">Community</a>
+            <a class="nav-cta" href="report.html">Report</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <p class="eyebrow">Water Quality &middot; Community Action</p>
+            <h1>Find unsafe water. <span class="accent">Treat it.</span> Prove it's cleaner.</h1>
+            <p class="lead">
+                AquaVanguard helps communities report polluted water sources, check the
+                risk, build a low-cost filter, and confirm the water actually improved.
+            </p>
+            <div class="cta">
+                <a class="btn btn-primary" href="report.html">Report a source</a>
+                <a class="btn btn-ghost" href="map.html">View map</a>
+            </div>
+        </section>
+
+        <!-- Each card opens its own page -->
+        <section class="section" aria-labelledby="how-title">
+            <h2 id="how-title">How it works</h2>
+            <div class="steps">
+                <a class="step" href="report.html">
+                    <span class="num">1</span>
+                    <h3>Report</h3>
+                    <p>Pin a polluted river, stream or well and note what you see.</p>
+                </a>
+                <a class="step" href="diagnose.html">
+                    <span class="num">2</span>
+                    <h3>Diagnose</h3>
+                    <p>Follow a simple test guide to get a risk level for the source.</p>
+                </a>
+                <a class="step" href="blueprints.html">
+                    <span class="num">3</span>
+                    <h3>Act</h3>
+                    <p>Get a low-cost treatment design that works offline.</p>
+                </a>
+                <a class="step" href="community.html">
+                    <span class="num">4</span>
+                    <h3>Verify</h3>
+                    <p>Retest the water. Only verified improvements earn rewards.</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- Counters are tappable too -->
+        <section class="section" aria-label="Community progress">
+            <div class="stats">
+                <a class="stat" href="map.html"><strong>128</strong><span>Sources reported</span></a>
+                <a class="stat" href="community.html"><strong>74</strong><span>Retested</span></a>
+                <a class="stat" href="community.html"><strong>41</strong><span>Improved</span></a>
+            </div>
+            <p class="fineprint">Sample numbers for the demo.</p>
+        </section>
+
+        <!-- Tapping the map preview opens the full map page -->
+        <section id="map" class="section" aria-labelledby="map-title">
+            <h2 id="map-title">Water sources near you</h2>
+            <a class="map-link" href="map.html" aria-label="Open the full water map">
+                <div class="map-preview">
+                    <span class="pin risk-high" style="left:22%;top:34%"></span>
+                    <span class="pin risk-mid" style="left:48%;top:58%"></span>
+                    <span class="pin risk-low" style="left:70%;top:30%"></span>
+                    <span class="pin risk-mid" style="left:82%;top:68%"></span>
+                    <span class="pin risk-low" style="left:34%;top:76%"></span>
+                    <span class="map-open">Open full map &rarr;</span>
+                </div>
+            </a>
+            <ul class="legend">
+                <li><i class="dot risk-high"></i> High risk</li>
+                <li><i class="dot risk-mid"></i> Medium</li>
+                <li><i class="dot risk-low"></i> Low</li>
+            </ul>
+            <p class="fineprint">Preview only. The live map comes in a later step.</p>
+        </section>
+
+        <section class="section">
+            <div class="safety">
+                <strong>Safety note</strong>
+                <p>
+                    AquaVanguard does not replace lab testing. Home filters improve
+                    clarity and reduce some contaminants, but they do not guarantee safe
+                    water. Always boil or disinfect drinking water after filtering.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <nav class="footer-nav" aria-label="Footer">
+            <a href="index.html">Home</a>
+            <a href="map.html">Map</a>
+            <a href="report.html">Report</a>
+            <a href="diagnose.html">Diagnose</a>
+            <a href="blueprints.html">Blueprints</a>
+            <a href="community.html">Community</a>
+        </nav>
+        <p>&copy; <span id="year"></span> AquaVanguard &middot; Water Quality &middot; Community Action</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
