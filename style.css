@@ -384,6 +384,10 @@ html.intro-on body {
     font-weight: 600;
 }
 
+.menu-toggle {
+    display: none;
+}
+
 main {
     max-width: 1100px;
     margin: 0 auto;
@@ -613,19 +617,86 @@ main {
     opacity: 0.7;
 }
 
-/* Small screens: keep the header tidy, other pages are reachable from the cards */
+/* Small screens: expose the complete site navigation from every page. */
 @media (max-width: 700px) {
-    .nav a:not(.nav-cta):not(.nav-offline) {
-        display: none;
+    .site-header {
+        position: relative;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 0.65rem;
+        padding: 0.8rem 1rem;
     }
 
-    .site-header {
-        flex-wrap: wrap;
+    .menu-toggle {
+        display: inline-flex;
+        min-width: 84px;
+        min-height: 44px;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.55rem 0.75rem;
+        border: 1px solid var(--card-border);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--white);
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .menu-toggle:focus-visible {
+        outline: 3px solid #b6e8ff;
+        outline-offset: 2px;
+    }
+
+    .menu-toggle-icon {
+        display: grid;
+        width: 1rem;
+        gap: 3px;
+    }
+
+    .menu-toggle-icon span {
+        display: block;
+        height: 2px;
+        border-radius: 2px;
+        background: currentColor;
     }
 
     .nav {
-        flex-wrap: wrap;
-        gap: 0.6rem;
+        display: none;
+        width: 100%;
+        align-items: stretch;
+        flex-direction: column;
+        gap: 0.25rem;
+        padding: 0.55rem;
+        border: 1px solid var(--card-border);
+        border-radius: 12px;
+        background: rgba(6, 30, 48, 0.97);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+    }
+
+    .nav.is-open {
+        display: flex;
+    }
+
+    .nav a,
+    .nav a:not(.nav-cta):not(.nav-offline) {
+        display: flex;
+        min-height: 44px;
+        align-items: center;
+        padding: 0.55rem 0.75rem;
+        border-radius: 8px;
+    }
+
+    .nav a:hover,
+    .nav a:focus-visible {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav .nav-cta {
+        justify-content: center;
+        margin-top: 0.2rem;
+        border-radius: 8px;
     }
 
     .nav-offline {
@@ -1774,6 +1845,186 @@ a.stat:active {
 
     .state-picker {
         grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+    img,
+    video,
+    iframe,
+    canvas,
+    svg {
+        max-width: 100%;
+    }
+
+    main,
+    .site-footer,
+    .page,
+    .page main,
+    .act-app,
+    .report-app,
+    .verify-app,
+    .water-map-app,
+    .offline-directory,
+    .offline-guide-content {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    p,
+    li,
+    h1,
+    h2,
+    h3,
+    dd,
+    a,
+    button,
+    label {
+        overflow-wrap: anywhere;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+        font-size: 1rem;
+    }
+
+    button {
+        min-height: 44px;
+    }
+
+    .btn,
+    .report-form-actions .btn,
+    .verify-form > .btn,
+    .test-record-actions .btn,
+    .act-video-library-actions .btn {
+        display: inline-flex;
+        min-height: 44px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .map-filter {
+        min-height: 44px;
+    }
+
+    .report-form input:not([type="checkbox"]):not([type="radio"]),
+    .report-form select,
+    .report-form textarea,
+    .verify-form input:not([type="checkbox"]):not([type="radio"]),
+    .verify-form select,
+    .verify-form textarea,
+    .test-record-form input,
+    .test-record-form select,
+    .act-budget-items input,
+    .offline-calculator-fields input,
+    #act-video-search {
+        width: 100%;
+        min-height: 44px;
+    }
+
+    .stats,
+    .act-options,
+    .report-status-options,
+    .report-observation-options,
+    .verify-form,
+    .verify-comparison,
+    .verify-progress,
+    .act-budget-items,
+    .offline-calculator-fields {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .report-status-option,
+    .report-observation-options label {
+        min-height: 52px;
+    }
+
+    .report-status-option input,
+    .report-observation-options input,
+    .verify-confirmation input {
+        width: 1.35rem;
+        height: 1.35rem;
+        min-width: 1.35rem;
+        min-height: 1.35rem;
+    }
+
+    .verify-confirmation {
+        align-items: flex-start;
+    }
+
+    .map-sidebar {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .source-map.leaflet-touch .leaflet-control-zoom a {
+        width: 44px;
+        height: 44px;
+        line-height: 42px;
+    }
+
+    .source-list-button,
+    .state-option,
+    .offline-size-option,
+    .offline-card-link {
+        min-height: 44px;
+    }
+
+    .source-list-name {
+        overflow: visible;
+        overflow-wrap: anywhere;
+        text-overflow: clip;
+        white-space: normal;
+    }
+
+    .diagnose-option input {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    .detail-fields div {
+        grid-template-columns: minmax(5.5rem, 0.65fr) minmax(0, 1.35fr);
+    }
+
+    .detail-action,
+    .act-video-actions a {
+        display: inline-flex;
+        min-height: 44px;
+        align-items: center;
+    }
+
+    .act-picture-guide summary {
+        display: flex;
+        min-height: 44px;
+        align-items: center;
+    }
+
+    .act-video-dialog {
+        width: calc(100vw - 1rem);
+        max-height: calc(100vh - 1rem);
+        border-radius: 12px;
+    }
+
+    .act-video-dialog-header {
+        align-items: center;
+        padding: 0.75rem;
+    }
+
+    .act-video-dialog-close {
+        width: 44px;
+        height: 44px;
+    }
+
+    .footer-nav {
+        gap: 0.35rem;
+    }
+
+    .footer-nav a {
+        display: inline-flex;
+        min-height: 44px;
+        align-items: center;
+        padding: 0.5rem 0.35rem;
     }
 }
 

@@ -13,6 +13,37 @@
   var year = document.getElementById("year");
   if (year) year.textContent = new Date().getFullYear();
 
+  var menuButton = document.querySelector(".menu-toggle");
+  var navigation = document.getElementById("site-navigation");
+  if (menuButton && navigation) {
+    function setNavigationOpen(isOpen) {
+      navigation.classList.toggle("is-open", isOpen);
+      menuButton.setAttribute("aria-expanded", String(isOpen));
+      menuButton.setAttribute(
+        "aria-label",
+        isOpen ? "Close navigation menu" : "Open navigation menu"
+      );
+      var label = menuButton.querySelector(".menu-toggle-label");
+      if (label) label.textContent = isOpen ? "Close" : "Menu";
+    }
+
+    menuButton.addEventListener("click", function () {
+      setNavigationOpen(menuButton.getAttribute("aria-expanded") !== "true");
+    });
+    navigation.addEventListener("click", function (event) {
+      if (event.target.closest("a")) setNavigationOpen(false);
+    });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && menuButton.getAttribute("aria-expanded") === "true") {
+        setNavigationOpen(false);
+        menuButton.focus();
+      }
+    });
+    window.addEventListener("resize", function () {
+      if (window.innerWidth > 700) setNavigationOpen(false);
+    });
+  }
+
   var waterFacts = [
     { text: "Oil and fuel can contaminate water and may make boiling unsafe as a response.", source: "CDC", sourceUrl: "https://www.cdc.gov/water-emergency/about/index.html", topic: "Contamination and pollution" },
     { text: "Floodwater can carry sewage, chemicals, and other hazards into wells and water systems.", source: "CDC", sourceUrl: "https://www.cdc.gov/water-emergency/about/index.html", topic: "Contamination and pollution" },

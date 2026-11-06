@@ -1,6 +1,6 @@
 "use strict";
 
-var CACHE_NAME = "aquavanguard-pwa-v1";
+var CACHE_NAME = "aquavanguard-pwa-v7";
 var APP_SHELL = [
   "./",
   "./index.html",
@@ -13,6 +13,7 @@ var APP_SHELL = [
   "./offline-guide.html",
   "./offline.html",
   "./blueprint.html",
+  "./tools/export-icons.html",
   "./style.css",
   "./app.js",
   "./act.js",

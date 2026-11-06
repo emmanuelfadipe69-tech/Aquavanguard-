@@ -71,6 +71,8 @@ The Act page also includes:
 - Built-in, illustrated picture guides with a print/save option.
 - Links to the standalone offline field-guide directory.
 
+The current nine-video library does not have a dedicated match for every concern: selecting cloudy water or possible chemical contamination shows no video results and points visitors to the corresponding picture guide. Chemical concerns should not be answered with generic DIY filtration videos.
+
 **Safety boundary:** For cloudy water, settling and cloth straining are described only as visible-particle pre-treatment. They do not make water safe to drink. For suspected fuel or chemical contamination, the guidance is to avoid contact and use, seek a known safe alternative, and contact the responsible authority—not to boil or improvise a filter.
 
 ### 6. Offline field guides — visual problem-first instructions
@@ -98,7 +100,7 @@ This prototype has no moderator, server, or independent test-provider integratio
 
 ### Additional pages and helper
 
-- [`offline.html`](offline.html) is the fallback page when a requested page is not available offline.
+- [`offline.html`](offline.html) is a standalone offline notice. The active service worker instead falls back to the cached home page (`index.html`) for an uncached navigation.
 - [`blueprint.html`](blueprint.html) is a legacy redirect to the Act page.
 - [`tools/export-icons.html`](tools/export-icons.html) is a local helper for converting the supplied SVG app icons into the PNG sizes referenced by the web app manifest.
 
@@ -132,7 +134,7 @@ The root [`manifest.json`](manifest.json) describes a standalone app and referen
 
 These PNG files are not included until exported. The manifest references them, so generate them before presenting the app as having the complete PWA icon set.
 
-The active app service worker is [`sw.js`](sw.js). It caches the local app pages, scripts, styles, manifest, SVG assets, and offline-guide photos; it serves cached resources when offline and falls back to the cached home page for an uncached navigation. The Act page also offers **Save app for offline use**. Installability and offline behavior should be tested in the target browser after the app has been served from localhost or HTTPS.
+The active app service worker is [`sw.js`](sw.js). It caches the local app pages, scripts, styles, manifest, SVG assets, offline-guide photos, and icon-export helper; it serves cached resources when offline and falls back to the cached home page for an uncached navigation. The Act page also offers **Save app for offline use**. Installability and offline behavior should be tested in the target browser after the app has been served from localhost or HTTPS.
 
 ## Project structure
 
@@ -163,4 +165,4 @@ The active app service worker is [`sw.js`](sw.js). It caches the local app pages
 - No guide or improvised filter can confirm drinking-water safety. Follow current local advisories and obtain suitable testing and qualified advice.
 - Internet access is needed for third-party map tiles, YouTube playback, and linked external resources. Cached app pages and bundled guide content are the offline-focused parts.
 - The map uses Leaflet from a CDN and Esri-hosted map tiles. Video playback uses YouTube embeds. Those external services may be unavailable, change, or apply their own usage and availability rules.
-- The interface uses responsive layouts, semantic forms, visible keyboard focus, and status announcements for important dynamic updates. The home-page fact ticker respects the reduced-motion preference.
+- The interface uses responsive layouts, semantic forms, visible keyboard focus, and status announcements for important dynamic updates. At 700px and narrower, the header menu exposes all six main destinations; forms and map details reflow for phones, and the footer links remain available. The home-page fact ticker respects the reduced-motion preference.
