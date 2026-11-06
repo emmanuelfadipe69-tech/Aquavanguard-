@@ -19,6 +19,7 @@
             <a href="map.html" aria-current="page">Map</a>
             <a href="diagnose.html">Diagnose</a>
             <a href="blueprints.html">Act</a>
+            <a class="nav-offline" href="offline-guides.html">Offline guides</a>
             <a href="community.html">Verify</a>
             <a class="nav-cta" href="report.html">Report</a>
         </nav>
@@ -30,18 +31,17 @@
         <section class="page-hero">
             <span class="step-tag">Community water reports</span>
             <h1>Water sources by state</h1>
-            <p class="lead">Choose Lagos or Ondo to explore sample reports across the state.</p>
+            <p class="lead">Choose Lagos or Ondo to explore illustrative samples and community reports saved in this browser.</p>
         </section>
 
         <section id="water-map-app" class="water-map-app" aria-label="Statewide water source reports">
             <div class="map-demo-note" role="note">
-                <strong>Demo map:</strong> These sample reports and risk levels are illustrative only. They are not
-                verified measurements or current public-health guidance.
+                <strong>Demo map:</strong> Sample reports are illustrative; community reports are user-entered and unverified. Neither is a verified measurement or current public-health guidance.
             </div>
 
             <div class="map-toolbar">
                 <div>
-                    <h2 id="reports-heading">Reported sources · Lagos State</h2>
+                    <h2 id="reports-heading">Water reports · Lagos State</h2>
                     <p id="map-results-count" class="map-results-count" aria-live="polite">Loading reports...</p>
                 </div>
                 <div class="map-filters" role="group" aria-label="Filter reports by risk">
@@ -86,12 +86,14 @@
                             </div>
                         </dl>
                         <p id="detail-observation" class="detail-observation" hidden></p>
+                        <img id="detail-photo" class="detail-photo" alt="Photo attached to this community report" hidden>
                         <a id="diagnose-source-link" class="btn btn-ghost detail-action" href="diagnose.html">Go to
                             water check</a>
+                        <a id="verify-source-link" class="btn btn-ghost detail-action" href="community.html" hidden>Record a retest</a>
                     </section>
 
                     <section class="source-list-section" aria-labelledby="source-list-title">
-                        <h2 id="source-list-title">Sample reports</h2>
+                        <h2 id="source-list-title">Community and demo reports</h2>
                         <ul id="source-list" class="source-list"></ul>
                     </section>
                 </aside>
@@ -144,6 +146,7 @@
 
     <script src="app.js"></script>
     <script src="data.js"></script>
+    <script src="water-data.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="map.js"></script>

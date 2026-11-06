@@ -90,6 +90,7 @@
             <a href="map.html">Map</a>
             <a href="diagnose.html">Diagnose</a>
             <a href="blueprints.html">Act</a>
+            <a class="nav-offline" href="offline-guides.html">Offline guides</a>
             <a href="community.html">Verify</a>
             <a class="nav-cta" href="report.html">Report</a>
         </nav>
@@ -106,7 +107,9 @@
             <div class="cta">
                 <a class="btn btn-primary" href="report.html">Report a source</a>
                 <a class="btn btn-ghost" href="map.html">View map</a>
+                <a class="btn btn-ghost" href="offline-guides.html">Offline action guides</a>
             </div>
+            <p class="fineprint">Prepare ahead: open the guides while connected and choose “Save app for offline use.” Videos, live maps, and external links still need internet.</p>
         </section>
 
         <!-- Each card opens its own page -->
@@ -177,6 +180,20 @@
                 </p>
             </div>
         </section>
+
+        <section class="section" id="facts" aria-labelledby="facts-title">
+            <h2 id="facts-title">Did you know?</h2>
+            <div class="water-facts-card" id="water-facts-card" aria-label="Water quality facts">
+                <span class="water-facts-topic" id="water-facts-topic"></span>
+                <p class="water-facts-text" id="water-facts-text" aria-live="off"></p>
+                <p class="water-facts-source" id="water-facts-source"></p>
+                <div class="water-facts-controls" aria-label="Water facts controls">
+                    <button id="water-facts-previous" type="button" aria-label="Show previous water fact">Previous</button>
+                    <button id="water-facts-toggle" type="button" aria-label="Pause water fact rotation">Pause</button>
+                    <button id="water-facts-next" type="button" aria-label="Show next water fact">Next</button>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer class="site-footer">
@@ -186,6 +203,7 @@
             <a href="report.html">Report</a>
             <a href="diagnose.html">Diagnose</a>
             <a href="blueprints.html">Act</a>
+            <a href="offline-guides.html">Offline guides</a>
             <a href="community.html">Verify</a>
         </nav>
         <p>&copy; <span id="year"></span> AquaVanguard &middot; Water Quality &middot; Community Action</p>

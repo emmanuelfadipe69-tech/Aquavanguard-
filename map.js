@@ -16,10 +16,12 @@
   var resultsCount = document.getElementById("map-results-count");
   var reportsHeading = document.getElementById("reports-heading");
   var diagnoseSourceLink = document.getElementById("diagnose-source-link");
+  var verifySourceLink = document.getElementById("verify-source-link");
   var selectedRisk = document.getElementById("detail-risk");
   var selectedPrompt = document.getElementById("detail-prompt");
   var detailFields = document.getElementById("detail-fields");
   var detailObservation = document.getElementById("detail-observation");
+  var detailPhoto = document.getElementById("detail-photo");
   var activeFilter = "all";
   var activeStateId = "lagos";
   var selectedSourceId = null;
@@ -53,6 +55,14 @@
   }
 
   sources = sources.filter(validSource);
+  if (window.AquaVanguardStore) {
+    try {
+      sources = sources.concat(window.AquaVanguardStore.listReports().filter(validSource));
+    } catch (error) {
+      showStatus(error.message);
+      console.error("AquaVanguard map: saved reports could not be loaded.", error);
+    }
+  }
 
   function sourceMatchesFilter(source) {
     return source.state === activeStateId &&
@@ -88,7 +98,8 @@
       name.className = "source-list-name";
       name.textContent = source.name;
       area.className = "source-list-area";
-      area.textContent = source.area + " · " + riskLabels[source.risk];
+      area.textContent = source.area + " · " + riskLabels[source.risk] +
+        (source.id.indexOf("report-") === 0 ? " · community report" : " · demo");
       content.append(name, area);
       button.append(marker, content);
       button.addEventListener("click", function () {
@@ -98,10 +109,10 @@
       list.appendChild(item);
     });
 
-    resultsCount.textContent = visibleSources.length + " of " + stateSources().length + " sample reports";
+    resultsCount.textContent = visibleSources.length + " of " + stateSources().length + " reports";
     if (reportsHeading) {
       var state = states.find(function (item) { return item.id === activeStateId; });
-      reportsHeading.textContent = "Reported sources · " + (state ? state.name : "Selected state");
+      reportsHeading.textContent = "Water reports · " + (state ? state.name : "Selected state");
     }
   }
 
@@ -112,6 +123,14 @@
     selectedPrompt.hidden = false;
     detailFields.hidden = true;
     detailObservation.hidden = true;
+    if (verifySourceLink) {
+      verifySourceLink.hidden = true;
+      verifySourceLink.href = "community.html";
+    }
+    if (detailPhoto) {
+      detailPhoto.hidden = true;
+      detailPhoto.removeAttribute("src");
+    }
     if (diagnoseSourceLink) diagnoseSourceLink.href = "diagnose.html";
   }
 
@@ -126,8 +145,23 @@
     document.getElementById("detail-type").textContent = source.type;
     document.getElementById("detail-date").textContent = source.date || "Demo report";
     detailObservation.textContent = source.observation;
+    if (detailPhoto) {
+      if (source.photo) {
+        detailPhoto.src = source.photo;
+        detailPhoto.hidden = false;
+      } else {
+        detailPhoto.hidden = true;
+        detailPhoto.removeAttribute("src");
+      }
+    }
     if (diagnoseSourceLink) {
       diagnoseSourceLink.href = "diagnose.html?source=" + encodeURIComponent(source.id);
+    }
+    if (verifySourceLink) {
+      var isCommunityReport = source.id.indexOf("report-") === 0;
+      verifySourceLink.hidden = !isCommunityReport;
+      verifySourceLink.href = isCommunityReport ?
+        "community.html?source=" + encodeURIComponent(source.id) : "community.html";
     }
     updateSourceList();
 
@@ -218,7 +252,7 @@
   if (!sources.length) {
     resultsCount.textContent = "No sample reports are available.";
     showStatus("The demo report data could not be loaded.");
-    console.error("AquaVanguard map: no valid sample sources were found.");
+    console.error("AquaVanguard map: no valid water sources were found.");
     return;
   }
 

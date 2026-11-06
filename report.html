@@ -6,10 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Report a source &middot; AquaVanguard</title>
     <meta name="theme-color" content="#0A2540">
+    <meta name="description" content="Save an approximate community water-source observation on this device.">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 </head>
 
-<body class="page">
+<body class="page report-page">
 
     <header class="site-header">
         <a class="wordmark" href="index.html"><span class="a">A</span>QUAVANGUARD</a>
@@ -17,28 +20,129 @@
             <a href="map.html">Map</a>
             <a href="diagnose.html">Diagnose</a>
             <a href="blueprints.html">Act</a>
+            <a class="nav-offline" href="offline-guides.html">Offline guides</a>
             <a href="community.html">Verify</a>
-            <a class="nav-cta" href="report.html">Report</a>
+            <a class="nav-cta" href="report.html" aria-current="page">Report</a>
         </nav>
     </header>
 
     <main>
-        <a class="back" href="index.html">&larr; Back to home</a>
+        <a class="back" href="map.html">&larr; Back to map</a>
 
         <section class="page-hero">
             <span class="step-tag">Step 1 &middot; Report</span>
-            <h1>Report a source</h1>
-            <p class="lead">Pin a polluted river, stream or well and note what you see.</p>
+            <h1>Report a water source</h1>
+            <p class="lead">Add an approximate location and what you observed. This demo saves reports only in this browser; it does not send them to a server.</p>
         </section>
 
-        <section class="section">
-            <div class="coming-soon">
-                <strong>Coming next</strong>
-                <p>This page will be built in a later step.</p>
+        <section class="report-app" aria-label="New community water-source report">
+            <div class="report-notice" role="note">
+                <strong>Protect privacy and stay safe.</strong>
+                <p>Do not enter a home address, names, or contact details. Location is rounded to an approximate area (about 1 km); never enter water or touch suspected sewage or chemicals. Reports are observations, not verified tests.</p>
+            </div>
+
+            <form id="report-form" class="report-form">
+                <fieldset class="report-fieldset">
+                    <legend>1. Identify the source</legend>
+                    <label>
+                        Source name <span aria-hidden="true">*</span>
+                        <input name="name" type="text" maxlength="70" required placeholder="For example: Community borehole">
+                    </label>
+                    <label>
+                        Approximate area / community <span aria-hidden="true">*</span>
+                        <input name="area" type="text" maxlength="70" required placeholder="For example: Makoko">
+                    </label>
+                    <label>
+                        State <span aria-hidden="true">*</span>
+                        <select name="state" id="report-state" required>
+                            <option value="lagos">Lagos State</option>
+                            <option value="ondo">Ondo State</option>
+                        </select>
+                    </label>
+                    <label>
+                        Source type <span aria-hidden="true">*</span>
+                        <select name="type" required>
+                            <option value="">Choose one</option>
+                            <option value="River">River</option>
+                            <option value="Stream">Stream</option>
+                            <option value="Well">Well</option>
+                            <option value="Borehole">Borehole</option>
+                            <option value="Tap">Tap</option>
+                            <option value="Pond">Pond</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </label>
+                </fieldset>
+
+                <fieldset class="report-fieldset">
+                    <legend>2. Choose an approximate point</legend>
+                    <p class="report-hint">Tap the map, or use your device location. The saved coordinates are rounded; precise location is not displayed on the public-style map.</p>
+                    <div class="report-location-actions">
+                        <button id="report-use-location" class="btn btn-ghost" type="button">Use approximate device location</button>
+                        <span id="report-location-status" role="status">No point selected yet.</span>
+                    </div>
+                    <div id="report-map" class="report-map" role="region" aria-label="Tap to choose an approximate report location"></div>
+                    <input type="hidden" name="lat" id="report-lat">
+                    <input type="hidden" name="lng" id="report-lng">
+                </fieldset>
+
+                <fieldset class="report-fieldset">
+                    <legend>3. What is the source status?</legend>
+                    <div class="report-status-options">
+                        <label class="report-status-option">
+                            <input type="radio" name="status" value="problem" required>
+                            <span><strong>Problem noticed</strong><small>Pollution or another concern observed</small></span>
+                        </label>
+                        <label class="report-status-option">
+                            <input type="radio" name="status" value="looks-fine">
+                            <span><strong>Looks fine by observation</strong><small>Not a safety check or test result</small></span>
+                        </label>
+                        <label class="report-status-option">
+                            <input type="radio" name="status" value="treated">
+                            <span><strong>Action taken / retest needed</strong><small>Not verified or cleared as safe</small></span>
+                        </label>
+                    </div>
+                    <p class="report-hint">Do not taste water. Appearance alone cannot show whether it is safe to drink.</p>
+                </fieldset>
+
+                <fieldset class="report-fieldset">
+                    <legend>4. Record what you observed</legend>
+                    <div class="report-observation-options">
+                        <label><input type="checkbox" name="observations" value="Unusual color or cloudiness"> Unusual color or cloudiness</label>
+                        <label><input type="checkbox" name="observations" value="Unusual smell"> Unusual smell</label>
+                        <label><input type="checkbox" name="observations" value="Waste or sewage nearby"> Waste or sewage nearby</label>
+                        <label><input type="checkbox" name="observations" value="Foam or floating waste"> Foam or floating waste</label>
+                        <label><input type="checkbox" name="observations" value="Possible fuel or chemical sheen"> Possible fuel or chemical sheen</label>
+                        <label><input type="checkbox" name="observations" value="Recent flooding or heavy rain"> Recent flooding or heavy rain</label>
+                    </div>
+                    <label>
+                        Notes (no names or private details)
+                        <textarea name="notes" rows="3" maxlength="300" placeholder="Describe only what you noticed; do not guess the contaminant."></textarea>
+                    </label>
+                    <label>
+                        Optional photo (stored on this device)
+                        <input id="report-photo" name="photo" type="file" accept="image/*">
+                    </label>
+                    <p class="report-hint">The photo is resized before local storage. Do not photograph people, addresses, or private property.</p>
+                </fieldset>
+
+                <div class="report-form-actions">
+                    <button class="btn btn-primary" type="submit">Save report on this device</button>
+                    <button class="btn btn-ghost" type="reset">Clear form</button>
+                </div>
+            </form>
+
+            <div id="report-feedback" class="report-feedback" role="status" hidden></div>
+            <div class="report-local-records">
+                <h2>Your saved reports on this device</h2>
+                <p id="report-count">Loading local reports...</p>
+                <a class="btn btn-ghost" href="map.html">View reports on the map</a>
+                <button id="report-clear-local" class="btn btn-ghost" type="button">Clear all local demo records</button>
             </div>
         </section>
 
         <div class="page-nav">
+            <a class="btn btn-ghost" href="map.html">&larr; Back to map</a>
             <a class="btn btn-primary" href="diagnose.html">Next: Diagnose &rarr;</a>
         </div>
     </main>
@@ -56,6 +160,10 @@
     </footer>
 
     <script src="app.js"></script>
+    <script src="water-data.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="report.js"></script>
 </body>
 
 </html>

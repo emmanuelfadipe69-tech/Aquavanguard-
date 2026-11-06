@@ -17,6 +17,7 @@
             <a href="map.html">Map</a>
             <a href="diagnose.html">Diagnose</a>
             <a href="blueprints.html">Act</a>
+            <a class="nav-offline" href="offline-guides.html">Offline guides</a>
             <a href="community.html">Verify</a>
             <a class="nav-cta" href="report.html">Report</a>
         </nav>
@@ -117,6 +118,25 @@
                     </div>
                 </fieldset>
 
+                <fieldset class="diagnose-question">
+                    <legend><span class="diagnose-step">5</span> Has there been heavy rain near the source in the past 7 days?</legend>
+                    <div class="diagnose-options">
+                        <label class="diagnose-option">
+                            <input type="radio" name="recentRain" value="yes" required>
+                            <span>Yes, heavy rain may have affected the area</span>
+                        </label>
+                        <label class="diagnose-option">
+                            <input type="radio" name="recentRain" value="no">
+                            <span>No heavy rain known</span>
+                        </label>
+                        <label class="diagnose-option">
+                            <input type="radio" name="recentRain" value="unsure">
+                            <span>Not sure</span>
+                        </label>
+                    </div>
+                    <p class="diagnose-context-note">Rainfall is self-reported context, not a water test or live forecast. This demo has no real-time weather or El Niño feed.</p>
+                </fieldset>
+
                 <div class="diagnose-actions">
                     <button class="btn btn-primary" type="submit">See screening guidance</button>
                     <button class="btn btn-ghost" type="reset">Clear answers</button>
@@ -139,6 +159,7 @@
                 <div class="diagnose-result-links">
                     <a class="btn btn-ghost" href="map.html">View community map</a>
                     <a id="diagnose-action-link" class="btn btn-ghost" href="blueprints.html?concern=unknown">Explore treatment guidance</a>
+                    <a id="diagnose-verify-link" class="btn btn-ghost" href="community.html" hidden>Record a retest</a>
                 </div>
             </section>
 
@@ -201,9 +222,14 @@
 
             <section class="test-record" aria-labelledby="test-record-title">
                 <h2 id="test-record-title">Have a water-test result?</h2>
-                <p>Record the result exactly as shown on the kit or laboratory report. This demo does not validate,
-                    interpret, upload, or save test results.</p>
+                <p>Record the result exactly as shown. It is saved in this browser and linked to the selected source when possible; the app does not validate or interpret it.</p>
                 <form id="test-record-form" class="test-record-form">
+                    <label>
+                        Related source (optional)
+                        <select name="sourceId" id="test-source-id">
+                            <option value="">Not linked to a source</option>
+                        </select>
+                    </label>
                     <label>
                         Test source
                         <select name="testSource" required>
@@ -233,12 +259,12 @@
                         <input name="testDate" type="date" required>
                     </label>
                     <div class="test-record-actions">
-                        <button class="btn btn-primary" type="submit">Show entered record</button>
+                        <button class="btn btn-primary" type="submit">Save unverified test record</button>
                         <button class="btn btn-ghost" type="reset">Clear test record</button>
                     </div>
                 </form>
                 <div id="test-record-output" class="test-record-output" role="status" hidden></div>
-                <p class="test-record-privacy">Entries only appear on this page and disappear when it is reloaded. Do not enter personal or confidential information.</p>
+                <p class="test-record-privacy">Records stay in this browser on this device. Do not enter personal or confidential information. User-entered results are not independently verified.</p>
             </section>
 
             <div class="safety diagnose-safety">
@@ -267,6 +293,7 @@
 
     <script src="app.js"></script>
     <script src="data.js"></script>
+    <script src="water-data.js"></script>
     <script src="diagnose.js"></script>
 </body>
 

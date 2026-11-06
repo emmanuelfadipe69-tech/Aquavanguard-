@@ -16,9 +16,11 @@
   var resultMethod = document.getElementById("diagnose-result-method");
   var resultReasons = document.getElementById("diagnose-result-reasons");
   var actionLink = document.getElementById("diagnose-action-link");
+  var verifyLink = document.getElementById("diagnose-verify-link");
   var sourceContext = document.getElementById("diagnose-source-context");
   var testRecordForm = document.getElementById("test-record-form");
   var testRecordOutput = document.getElementById("test-record-output");
+  var testSourceSelect = document.getElementById("test-source-id");
   var runDemoButton = document.getElementById("run-diagnose-demo");
   var resetDemoButton = document.getElementById("reset-diagnose-demo");
   var demoResult = document.getElementById("diagnose-demo-result");
@@ -68,7 +70,8 @@
     var followUpSigns = [
       answers.appearance === "cloudy",
       answers.pollution === "runoff",
-      answers.flooding === "yes"
+      answers.flooding === "yes",
+      answers.recentRain === "yes"
     ].filter(Boolean).length;
     var reasons = [];
 
@@ -94,6 +97,9 @@
     } else if (answers.flooding === "unsure") {
       reasons.push("Recent flooding is unknown, so this screening cannot rule out a flood-related concern.");
     }
+    if (answers.recentRain === "yes") {
+      reasons.push("Heavy rain was self-reported near the source. It is context for follow-up, not evidence that the water is contaminated.");
+    }
 
     if (urgentSigns || followUpSigns >= 2) {
       return {
@@ -101,7 +107,7 @@
         className: "is-high",
         title: "Avoid using this source for drinking or cooking.",
         summary: "The observations include signs that need prompt attention. This is a precautionary screening result, not a confirmed contamination finding.",
-        method: "This is rule-based precautionary guidance, not a validated risk score. A strong warning sign or multiple reported warning signs lead to this outcome.",
+        method: "This is rule-based precautionary guidance, not a validated risk score. A strong warning sign or multiple reported warning signs lead to this outcome. Rainfall is self-reported context; no live weather or El Niño feed is used.",
         reasons: reasons.length ? reasons : ["Several warning observations were selected; their cause and severity have not been independently assessed."],
         actions: [
           "Use a known safe alternative water source and avoid direct contact if fuel, chemicals, sewage, or waste may be present.",
@@ -117,7 +123,7 @@
         className: "is-follow-up",
         title: "Take precautions and arrange a closer check.",
         summary: "At least one observation may indicate a problem, but this screening cannot determine what is in the water.",
-        method: "This is rule-based precautionary guidance, not a validated risk score. One reported warning sign or uncertainty about flooding leads to this outcome.",
+        method: "This is rule-based precautionary guidance, not a validated risk score. One reported warning sign, recent heavy rain, or uncertainty about flooding leads to this outcome.",
         reasons: reasons.length ? reasons : ["One or more answers indicate uncertainty that needs follow-up."],
         actions: [
           "Use a known safe water source for drinking and food preparation until the source has been assessed.",
@@ -147,11 +153,56 @@
   var sourceData = window.AquaVanguardData;
   var source = sourceData && Array.isArray(sourceData.sources) ?
     sourceData.sources.find(function (item) { return item.id === sourceId; }) : null;
+  if (!source && window.AquaVanguardStore) {
+    try {
+      source = window.AquaVanguardStore.getReport(sourceId);
+    } catch (error) {
+      if (sourceContext) {
+        sourceContext.textContent = error.message;
+        sourceContext.hidden = false;
+      }
+      console.error("AquaVanguard diagnose: saved source could not be loaded.", error);
+    }
+  }
 
   if (source && sourceContext) {
-    sourceContext.textContent = "Map sample selected: " + source.name + " (" + source.area +
-      "). Its displayed risk is illustrative; answer the questions based on what you observe.";
+    sourceContext.textContent = (source.id.indexOf("report-") === 0 ? "Saved community report: " : "Map sample selected: ") +
+      source.name + " (" + source.area + "). " +
+      (source.id.indexOf("report-") === 0 ?
+        "This is an unverified community observation; answer based on what you observe." :
+        "Its displayed risk is illustrative; answer based on what you observe.");
     sourceContext.hidden = false;
+  }
+  if (verifyLink && source && source.id.indexOf("report-") === 0) {
+    verifyLink.href = "community.html?source=" + encodeURIComponent(source.id);
+    verifyLink.hidden = false;
+  }
+
+  if (testSourceSelect) {
+    var reportSources = [];
+    if (source && source.id.indexOf("report-") === 0) reportSources.push(source);
+    if (window.AquaVanguardStore) {
+      try {
+        reportSources = reportSources.concat(window.AquaVanguardStore.listReports());
+      } catch (error) {
+        console.error("AquaVanguard diagnose: report options could not be loaded.", error);
+      }
+    }
+    var uniqueSources = [];
+    reportSources.forEach(function (item) {
+      if (item && !uniqueSources.some(function (existing) { return existing.id === item.id; })) {
+        uniqueSources.push(item);
+      }
+    });
+    uniqueSources.forEach(function (item) {
+      var option = document.createElement("option");
+      option.value = item.id;
+      option.textContent = item.name + " · " + item.area;
+      testSourceSelect.appendChild(option);
+    });
+    if (source && testSourceSelect.querySelector('option[value="' + source.id + '"]')) {
+      testSourceSelect.value = source.id;
+    }
   }
 
   form.addEventListener("submit", function (event) {
@@ -162,16 +213,20 @@
       appearance: selectedValue("appearance"),
       smell: selectedValue("smell"),
       pollution: selectedValue("pollution"),
-      flooding: selectedValue("flooding")
+      flooding: selectedValue("flooding"),
+      recentRain: selectedValue("recentRain")
     };
     var concern = answers.appearance === "oil" || answers.pollution === "spill" ?
       "chemical" :
-      answers.flooding === "yes" || answers.pollution === "runoff" ||
+      answers.flooding === "yes" || answers.recentRain === "yes" || answers.pollution === "runoff" ||
         answers.pollution === "sewage" ?
         "microbial" :
         answers.appearance === "cloudy" ? "cloudy" : "unknown";
 
-    if (actionLink) actionLink.href = "blueprints.html?concern=" + concern;
+    if (actionLink) {
+      actionLink.href = "blueprints.html?concern=" + concern +
+        (sourceId ? "&source=" + encodeURIComponent(sourceId) : "");
+    }
     renderResult(assess(answers));
   });
 
@@ -188,11 +243,33 @@
       var values = new FormData(testRecordForm);
       var sourceLabel = values.get("testSource") === "laboratory" ?
         "Laboratory report entered (not verified)" : "Home test kit entered (not verified)";
+      var reportId = String(values.get("sourceId") || "");
+      var parameter = String(values.get("parameter"));
+      var resultValue = String(values.get("testResult")).trim();
+      var testDate = String(values.get("testDate"));
+      var testSource = String(values.get("testSource"));
+      if (window.AquaVanguardStore) {
+        try {
+          window.AquaVanguardStore.saveTest({
+            reportId: reportId,
+            testSource: testSource,
+            parameter: parameter,
+            result: resultValue,
+            testDate: testDate
+          });
+        } catch (error) {
+          testRecordOutput.textContent = error.message;
+          testRecordOutput.hidden = false;
+          console.error("AquaVanguard diagnose: test record could not be saved.", error);
+          return;
+        }
+      }
       var details = [
         ["Evidence status", sourceLabel],
-        ["Test", values.get("parameter")],
-        ["Result as entered", values.get("testResult")],
-        ["Test date", values.get("testDate")]
+        ["Related source", reportId ? testSourceSelect.options[testSourceSelect.selectedIndex].text : "Not linked"],
+        ["Test", parameter],
+        ["Result as entered", resultValue],
+        ["Test date", testDate]
       ];
 
       testRecordOutput.replaceChildren();
@@ -212,7 +289,7 @@
       testRecordOutput.appendChild(list);
 
       var disclaimer = document.createElement("p");
-      disclaimer.textContent = "This entry is shown as provided and has not been checked against a standard or interpreted as safe or unsafe.";
+      disclaimer.textContent = "This entry is saved in this browser as provided. It has not been checked against a standard, independently verified, or interpreted as safe or unsafe.";
       testRecordOutput.appendChild(disclaimer);
       testRecordOutput.hidden = false;
     });
@@ -273,6 +350,7 @@
       if (demoActionLink) {
         demoActionLink.href = scenario.id === "DEMO-002" ?
           "blueprints.html?concern=microbial" : "blueprints.html?concern=unknown";
+        if (sourceId) demoActionLink.href += "&source=" + encodeURIComponent(sourceId);
       }
       demoResult.hidden = false;
       resetDemoButton.hidden = false;

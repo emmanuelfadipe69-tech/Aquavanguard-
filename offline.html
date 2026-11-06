@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0A2540">
+    <meta name="robots" content="noindex">
+    <title>You're offline &middot; AquaVanguard</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .offline-page {
+            display: grid;
+            min-height: 100vh;
+            place-items: center;
+            padding: 1.25rem;
+        }
+
+        .offline-card {
+            width: min(100%, 620px);
+            padding: clamp(1.25rem, 5vw, 2.5rem);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            background: rgba(10, 37, 64, 0.72);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .offline-card h1 {
+            margin: 0.75rem 0;
+            font-size: clamp(2rem, 8vw, 3.25rem);
+            line-height: 1.08;
+        }
+
+        .offline-card p {
+            margin: 0.75rem 0;
+            color: rgba(255, 255, 255, 0.82);
+        }
+
+        .offline-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            margin-top: 1.5rem;
+        }
+
+        .offline-actions .btn {
+            min-height: 44px;
+        }
+
+        .offline-note {
+            margin-top: 1.25rem !important;
+            font-size: 0.84rem;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="offline-page">
+        <section class="offline-card" aria-labelledby="offline-title">
+            <span class="step-tag">AquaVanguard offline</span>
+            <h1 id="offline-title">You are not connected</h1>
+            <p>The page you requested isn’t available offline. You can still open the saved picture-based water-safety guides if they were saved on this device.</p>
+            <div class="offline-actions">
+                <a class="btn btn-primary" href="offline-guides.html">Open offline field guides</a>
+                <a class="btn btn-ghost" href="index.html">Try the home page</a>
+            </div>
+            <p class="offline-note">Videos, live map tiles, and external links need internet. If the guides do not open, reconnect and choose “Save app for offline use” on the Act page.</p>
+        </section>
+    </main>
+</body>
+
+</html>

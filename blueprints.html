@@ -19,6 +19,7 @@
             <a href="map.html">Map</a>
             <a href="diagnose.html">Diagnose</a>
             <a href="blueprints.html" aria-current="page">Act</a>
+            <a class="nav-offline" href="offline-guides.html">Offline guides</a>
             <a href="community.html">Verify</a>
             <a class="nav-cta" href="report.html">Report</a>
         </nav>
@@ -30,7 +31,7 @@
         <section class="page-hero">
             <span class="step-tag">Step 3 &middot; Act</span>
             <h1>Choose a safer next step</h1>
-            <p class="lead">Treatment depends on the hazard. Start with the concern you have; if the hazard is unknown, use a known safe source and get local advice.</p>
+            <p class="lead">Choose a concern to see practical next steps, browse related videos while connected, or open a picture guide designed to work offline.</p>
         </section>
 
         <section class="act-app" aria-label="Water safety action guidance">
@@ -62,6 +63,58 @@
                 </div>
             </section>
 
+            <section class="act-learning" aria-labelledby="act-learning-title">
+                <div class="act-learning-heading">
+                    <div>
+                        <span class="step-tag">Learn by watching or following pictures</span>
+                        <h2 id="act-learning-title">Videos matched to your concern</h2>
+                        <p id="act-video-intro">Choose a concern above to see its relevant videos first. You can also search the curated library or browse every topic. You do not need an account to browse; YouTube may still restrict playback for some videos.</p>
+                    </div>
+                    <div class="act-offline-actions">
+                        <button id="act-save-offline" class="btn btn-primary" type="button">Save app for offline use</button>
+                        <p id="act-offline-status" class="act-offline-status" role="status" aria-live="polite">Visit while connected and save the app once. Picture guides are included; videos and live maps need internet.</p>
+                    </div>
+                </div>
+
+                <div class="act-video-library-controls">
+                    <label class="act-video-search-label" for="act-video-search">Search video titles, publishers, or topics</label>
+                    <input id="act-video-search" type="search" autocomplete="off" placeholder="Try “flood”, “storage”, or “boil-water”">
+                    <div class="act-video-library-actions">
+                        <button id="act-video-show-all" class="btn btn-ghost" type="button" aria-pressed="false">Browse all videos</button>
+                        <button id="act-video-history-toggle" class="btn btn-ghost" type="button" aria-expanded="false" aria-controls="act-video-history">Watch history</button>
+                    </div>
+                </div>
+
+                <section id="act-video-history" class="act-video-history" aria-label="Recently opened videos" hidden>
+                    <div class="act-video-history-heading">
+                        <div>
+                            <h3>Watch history on this device</h3>
+                            <p>Videos you opened appear here, newest first. History is saved only in this browser.</p>
+                        </div>
+                        <button id="act-video-history-clear" class="act-video-clear" type="button">Clear history</button>
+                    </div>
+                    <div id="act-video-history-list" class="act-video-history-list"></div>
+                </section>
+
+                <p id="act-video-results-status" class="act-video-results-status" role="status" aria-live="polite"></p>
+                <div id="act-video-grid" class="act-video-grid"></div>
+                <div class="act-video-library-more">
+                    <button id="act-video-load-more" class="btn btn-ghost" type="button" hidden>Show more videos</button>
+                </div>
+                <p class="act-video-safety-note"><strong>Water safety:</strong> A video cannot test water or confirm that it is safe. Filtration demonstrations—including cloth, sand, gravel, or charcoal—are not proof of disinfection or chemical removal. Follow local advisories and use an appropriate validated treatment for the known hazard. For suspected fuel or chemical contamination, do not handle, boil, or filter the water.</p>
+                <p class="act-video-disclaimer">The library is a curated set, not a live YouTube search feed. Videos stream from YouTube inside this page and need internet; playback, region, and availability rules still apply. Use the picture-based guides below when videos cannot load.</p>
+            </section>
+
+            <dialog id="act-video-dialog" class="act-video-dialog" aria-labelledby="act-video-dialog-title">
+                <div class="act-video-dialog-header">
+                    <h2 id="act-video-dialog-title">Water-safety video</h2>
+                    <button id="act-video-dialog-close" class="act-video-dialog-close" type="button" aria-label="Close video">&times;</button>
+                </div>
+                <div id="act-video-player" class="act-video-player"></div>
+                <p id="act-video-dialog-safety" class="act-video-dialog-safety" role="note"></p>
+                <p class="act-video-dialog-note">This video is provided by YouTube. If playback is unavailable in your area or on your connection, close this window and use the picture guide instead.</p>
+            </dialog>
+
             <section id="act-guidance" class="act-guidance" aria-live="polite" tabindex="-1">
                 <span id="act-guidance-label" class="act-guidance-label">Safety unknown</span>
                 <h2 id="act-guidance-title">Do not assume untreated water is safe.</h2>
@@ -71,19 +124,182 @@
                 <p id="act-guidance-caution" class="act-guidance-caution"></p>
             </section>
 
+            <section id="act-picture-guides" class="act-picture-guides" aria-labelledby="act-picture-guides-title">
+                <div class="act-picture-guides-heading">
+                    <div>
+                        <span class="step-tag">Works without video playback</span>
+                        <h2 id="act-picture-guides-title">Picture-based step-by-step guides</h2>
+                        <p>These lightweight illustrations and instructions are included in the saved app. Choose the concern that matches what you see; this guidance does not test water or confirm it is safe.</p>
+                        <a id="act-offline-directory-link" class="btn btn-primary" href="offline-guides.html?concern=unknown">Open the visual offline field directory</a>
+                    </div>
+                    <button id="act-print-guide" class="btn btn-ghost" type="button">Print / save guide</button>
+                </div>
+                <div class="act-picture-guide-choices" role="group" aria-label="Choose an offline picture guide">
+                    <button class="btn btn-ghost" type="button" data-guide-target="unknown">Not sure / no test</button>
+                    <button class="btn btn-ghost" type="button" data-guide-target="microbial">Germs or flooding</button>
+                    <button class="btn btn-ghost" type="button" data-guide-target="cloudy">Cloudy or muddy</button>
+                    <button class="btn btn-ghost" type="button" data-guide-target="chemical">Fuel or chemicals</button>
+                </div>
+                <details id="picture-guide-unknown" class="act-picture-guide" data-guide="unknown">
+                    <summary>Safety unknown: find a safer source</summary>
+                    <ol class="act-illustrated-steps">
+                        <li>
+                            <svg viewBox="0 0 72 72" role="img" aria-label="Covered container holding water">
+                                <path d="M20 20h32l-3 42H23z" fill="#b9e8f4" stroke="#0a5266" stroke-width="3" />
+                                <path d="M25 14h22v7H25zM30 9h12v5H30z" fill="#fff" stroke="#0a5266" stroke-width="3" />
+                                <path d="M24 37h25" stroke="#2b9cb4" stroke-width="4" />
+                            </svg>
+                            <div><strong>Use a trusted alternative.</strong><p>Choose water from a treated supply or a source authorities have confirmed is safe. Follow any do-not-use advisory.</p></div>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 72 72" role="img" aria-label="Person contacting a local water authority">
+                                <rect x="20" y="9" width="32" height="54" rx="6" fill="#fff" stroke="#0a5266" stroke-width="3" />
+                                <rect x="25" y="16" width="22" height="34" rx="2" fill="#c6edf5" />
+                                <path d="M29 26h14M29 33h14M29 40h8" stroke="#1683a1" stroke-width="3" stroke-linecap="round" />
+                                <circle cx="36" cy="56" r="2" fill="#0a5266" />
+                            </svg>
+                            <div><strong>Ask what test is appropriate.</strong><p>Tell local water or public-health authorities about the source and concern, and ask how to get it tested.</p></div>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 72 72" role="img" aria-label="Water storage container protected with a lid">
+                                <path d="M17 25h38l-4 36H21z" fill="#b9e8f4" stroke="#0a5266" stroke-width="3" />
+                                <path d="M14 20h44v7H14z" fill="#fff" stroke="#0a5266" stroke-width="3" />
+                                <path d="M26 16h20" stroke="#0a5266" stroke-width="4" stroke-linecap="round" />
+                                <path d="M28 42h16" stroke="#2b9cb4" stroke-width="4" stroke-linecap="round" />
+                            </svg>
+                            <div><strong>Keep alternative water protected.</strong><p>Store it in a clean, tightly covered container and avoid dipping hands or used cups into it.</p></div>
+                        </li>
+                    </ol>
+                </details>
+
+                <details id="picture-guide-microbial" class="act-picture-guide" data-guide="microbial">
+                    <summary>Possible germs or flood contamination</summary>
+                    <ol class="act-illustrated-steps">
+                        <li>
+                            <svg viewBox="0 0 72 72" role="img" aria-label="Warning sign beside flood water">
+                                <path d="M36 8 66 61H6z" fill="#ffcf70" stroke="#764b0c" stroke-width="3" stroke-linejoin="round" />
+                                <path d="M36 25v17M36 51v2" stroke="#4a3517" stroke-width="5" stroke-linecap="round" />
+                            </svg>
+                            <div><strong>Check the hazard first.</strong><p>Follow local boil-water or do-not-use advisories. If fuel or chemicals may be present, do not drink or treat this water at home.</p></div>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 72 72" role="img" aria-label="Clear water brought to a rolling boil in a pot">
+                                <path d="M14 34h44l-5 24H19z" fill="#b9e8f4" stroke="#0a5266" stroke-width="3" />
+                                <path d="M20 39h32M27 29c-6-5 5-7 0-13M36 29c-6-5 5-7 0-13M45 29c-6-5 5-7 0-13" fill="none" stroke="#1683a1" stroke-width="3" stroke-linecap="round" />
+                                <path d="M18 61h36" stroke="#0a5266" stroke-width="4" stroke-linecap="round" />
+                            </svg>
+                            <div><strong>For germs only, follow official treatment advice.</strong><p>If advised to boil and chemical contamination is not suspected, bring clear water to a rolling boil for 1 minute (3 minutes above 6,500 feet).</p></div>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 72 72" role="img" aria-label="Boiled water cooling in a clean covered container">
+                                <path d="M19 24h34l-3 38H22z" fill="#b9e8f4" stroke="#0a5266" stroke-width="3" />
+                                <path d="M16 19h40v7H16z" fill="#fff" stroke="#0a5266" stroke-width="3" />
+                                <path d="M27 13c-5-4 4-5 0-10M38 13c-5-4 4-5 0-10" fill="none" stroke="#1683a1" stroke-width="3" stroke-linecap="round" />
+                                <path d="M27 41h18" stroke="#2b9cb4" stroke-width="4" />
+                            </svg>
+                            <div><strong>Cool and store it safely.</strong><p>Use a clean covered container. Keep hands, cups, and other sources of contamination out of stored water.</p></div>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 72 72" role="img" aria-label="Water sample prepared for testing">
+                                <path d="M28 10h16v6l-3 5v38a6 6 0 0 1-6 6 6 6 0 0 1-6-6V21l-3-5v-6z" fill="#fff" stroke="#0a5266" stroke-width="3" />
+                                <path d="M29 40h14v18a7 7 0 0 1-14 0z" fill="#8bdaf3" />
+                                <path d="M30 29h12" stroke="#0a5266" stroke-width="3" />
+                            </svg>
+                            <div><strong>Keep following advisories and arrange testing.</strong><p>Do not assume a source is safe based only on appearance or on one treatment step.</p></div>
+                        </li>
+                    </ol>
+                </details>
+
+                <details id="picture-guide-cloudy" class="act-picture-guide" data-guide="cloudy">
+                    <summary>Cloudy or muddy water</summary>
+                    <ol class="act-illustrated-steps">
+                        <li>
+                            <svg viewBox="0 0 72 72" role="img" aria-label="Cloudy water sample with sediment">
+                                <path d="M21 13h30l-3 49H24z" fill="#fff" stroke="#0a5266" stroke-width="3" />
+                                <path d="M23 35h26l-2 24H25z" fill="#b7a581" />
+                                <circle cx="31" cy="49" r="2" fill="#705d3c" /><circle cx="41" cy="54" r="2" fill="#705d3c" />
+                                <path d="M27 20h18" stroke="#2b9cb4" stroke-width="3" />
+                            </svg>
+                            <div><strong>Stop if a chemical spill is possible.</strong><p>Do not touch or use water with a fuel sheen, chemical smell, or nearby spill. Use chemical-contamination advice instead.</p></div>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 72 72" role="img" aria-label="Sediment settling to the bottom of a container">
+                                <path d="M19 12h34l-4 50H23z" fill="#dff6fb" stroke="#0a5266" stroke-width="3" />
+                                <path d="M23 27h26v29H23z" fill="#a9dce6" />
+                                <path d="M25 54h22" stroke="#816d4b" stroke-width="6" stroke-linecap="round" />
+                                <circle cx="30" cy="43" r="2" fill="#816d4b" /><circle cx="42" cy="37" r="2" fill="#816d4b" />
+                            </svg>
+                            <div><strong>Clarify visible particles only if appropriate.</strong><p>Let sediment settle, then carefully draw off clearer water, or strain through a clean cloth. This is only pre-treatment.</p></div>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 72 72" role="img" aria-label="Treatment label and test checklist">
+                                <rect x="15" y="10" width="42" height="52" rx="4" fill="#fff" stroke="#0a5266" stroke-width="3" />
+                                <path d="M24 24h5l3 4 6-8M24 39h5l3 4 6-8M42 25h8M42 40h8M24 52h24" fill="none" stroke="#1683a1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <div><strong>Use only suitable validated treatment.</strong><p>Follow local public-health advice and product instructions for the suspected hazard. Clarifying water does not prove it is safe.</p></div>
+                        </li>
+                    </ol>
+                </details>
+
+                <details id="picture-guide-chemical" class="act-picture-guide" data-guide="chemical">
+                    <summary>Possible fuel or chemical contamination</summary>
+                    <ol class="act-illustrated-steps">
+                        <li>
+                            <svg viewBox="0 0 72 72" role="img" aria-label="Chemical warning symbol">
+                                <path d="M36 7 67 62H5z" fill="#ffcf70" stroke="#764b0c" stroke-width="3" stroke-linejoin="round" />
+                                <path d="M36 24v19M36 52v2" stroke="#4a3517" stroke-width="5" stroke-linecap="round" />
+                            </svg>
+                            <div><strong>Stop use and avoid contact.</strong><p>Do not drink, cook, brush teeth, or wash food with suspected contaminated water. Keep children and animals away.</p></div>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 72 72" role="img" aria-label="Clean alternative water source">
+                                <path d="M36 9c-13 18-21 29-21 39a21 21 0 0 0 42 0c0-10-8-21-21-39z" fill="#8bdaf3" stroke="#0a5266" stroke-width="3" />
+                                <path d="M26 48c1-7 6-12 11-18" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" />
+                                <path d="m29 54 5 5 11-13" fill="none" stroke="#1b7f4f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <div><strong>Switch to a known safe alternative.</strong><p>Use a different source confirmed safe by the responsible authority for drinking, cooking, and personal hygiene.</p></div>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 72 72" role="img" aria-label="Report contamination to local authorities">
+                                <rect x="13" y="14" width="46" height="46" rx="5" fill="#fff" stroke="#0a5266" stroke-width="3" />
+                                <path d="M22 25h28M22 34h28M22 43h17M22 52h12" stroke="#1683a1" stroke-width="3" stroke-linecap="round" />
+                                <path d="M48 43v14M42 50h12" stroke="#1b7f4f" stroke-width="3" stroke-linecap="round" />
+                            </svg>
+                            <div><strong>Report it and ask for help.</strong><p>Share the location and observation with local water or public-health authorities. Ask about testing, cleanup, and when use can resume.</p></div>
+                        </li>
+                    </ol>
+                </details>
+            </section>
+
             <section class="filter-blueprint" aria-labelledby="filter-blueprint-title">
                 <div>
-                    <span class="step-tag">Low-cost prototype concept</span>
-                    <h2 id="filter-blueprint-title">A filter can improve clarity—not prove safety</h2>
-                    <p>A locally built cloth or sand-and-gravel filter may reduce visible particles as a pre-treatment step. It is not a validated drinking-water treatment design and may not remove bacteria, viruses, or dissolved chemicals.</p>
+                    <span class="step-tag">Match the action to the hazard</span>
+                    <h2 id="filter-blueprint-title">No single filter solves every water problem</h2>
+                    <p>The materials plan below changes with the selected concern. Low-cost cloth or settling steps are only for visible particles when chemical contamination is not suspected; they are not validated drinking-water treatment.</p>
                 </div>
                 <ol class="filter-blueprint-steps">
                     <li><strong>Inspect and report:</strong> Note the source, location, date, and visible concern. Do not enter unsafe water or touch suspected chemicals.</li>
-                    <li><strong>Separate solids only if appropriate:</strong> Allowing sediment to settle or using a clean cloth can clarify water, but does not make it safe to drink.</li>
-                    <li><strong>Use a hazard-appropriate treatment:</strong> For suspected germs only, follow local public-health advice. A rolling boil can kill many disease-causing germs; it does not remove fuel or toxic chemicals.</li>
-                    <li><strong>Protect treated water:</strong> Cool and store it in a clean, covered container; avoid dipping hands or cups into the stored water.</li>
-                    <li><strong>Verify:</strong> Retest with an appropriate validated method or qualified laboratory. Do not label water safe based only on clarity or a single indicator.</li>
+                    <li><strong>Choose a hazard-specific response:</strong> Follow local public-health advice; for a possible chemical spill, do not try a home treatment.</li>
+                    <li><strong>Clarify only when appropriate:</strong> Settling or a clean cloth may reduce visible particles but does not remove all hazards or establish safety.</li>
+                    <li><strong>Protect safe alternative water:</strong> Store it in a clean, covered container and avoid touching or dipping into it.</li>
+                    <li><strong>Retest and seek independent review:</strong> Compare suitable results using the same method. A single indicator or a clearer appearance does not establish safety.</li>
                 </ol>
+            </section>
+
+            <section id="act-matched-blueprint" class="act-matched-blueprint" aria-labelledby="act-blueprint-title">
+                <div>
+                    <span class="step-tag">Matched to the selected concern</span>
+                    <h2 id="act-blueprint-title">Practical materials plan</h2>
+                    <p id="act-blueprint-summary"></p>
+                </div>
+                <ul id="act-blueprint-materials" class="act-blueprint-materials"></ul>
+                <div class="act-budget">
+                    <h3>Estimate a local materials budget</h3>
+                    <p>Prices vary by community; no vendor prices are assumed. Add local quotes in Nigerian naira. This is a planning estimate, not the cost of a validated treatment system.</p>
+                    <div id="act-budget-items" class="act-budget-items"></div>
+                    <p id="act-budget-total" class="act-budget-total" aria-live="polite">Estimated total: ₦0</p>
+                </div>
+                <p id="act-blueprint-safety" class="act-guidance-caution"></p>
             </section>
 
             <section class="act-verification" aria-labelledby="act-verify-title">
@@ -101,7 +317,7 @@
                     <li><a href="https://www.cdc.gov/drinking-water/about/about-home-water-treatment-systems.html" target="_blank" rel="noopener noreferrer">CDC: About Home Water Treatment Systems</a> — treatment systems vary; choose based on water testing and the specific contaminant.</li>
                     <li><a href="https://www.who.int/publications/i/item/9789240045064" target="_blank" rel="noopener noreferrer">WHO Guidelines for Drinking-water Quality</a> — health-based guidance and risk management.</li>
                 </ul>
-                <p>Follow current local advisories and product instructions. This page is general guidance, not a local water-quality determination.</p>
+                <p>Follow current local advisories and product instructions. This page and the linked third-party videos are general guidance, not a local water-quality determination.</p>
             </section>
         </section>
 
@@ -124,6 +340,7 @@
     </footer>
 
     <script src="app.js"></script>
+    <script src="video-library.js"></script>
     <script src="act.js"></script>
 </body>
 

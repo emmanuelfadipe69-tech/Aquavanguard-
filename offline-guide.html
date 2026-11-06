@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0A2540">
+    <meta name="description" content="A saved, illustrated, problem-specific water safety field guide.">
+    <title>Field guide &middot; AquaVanguard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page offline-guide-page">
+    <header class="site-header">
+        <a class="wordmark" href="index.html"><span class="a">A</span>QUAVANGUARD</a>
+        <nav class="nav" aria-label="Main">
+            <a href="map.html">Map</a>
+            <a href="diagnose.html">Diagnose</a>
+            <a href="blueprints.html">Act</a>
+            <a class="nav-offline" href="offline-guides.html">Offline guides</a>
+            <a href="community.html">Verify</a>
+            <a class="nav-cta" href="report.html">Report</a>
+        </nav>
+    </header>
+
+    <main>
+        <a class="back" href="offline-guides.html">&larr; Back to field directory</a>
+        <article id="offline-guide-content" class="offline-guide-content" aria-live="polite">
+            <p class="offline-guide-status">Loading saved field guide…</p>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <nav class="footer-nav" aria-label="Footer">
+            <a href="index.html">Home</a>
+            <a href="map.html">Map</a>
+            <a href="report.html">Report</a>
+            <a href="diagnose.html">Diagnose</a>
+            <a href="blueprints.html">Act</a>
+            <a href="offline-guides.html">Offline guides</a>
+            <a href="community.html">Verify</a>
+        </nav>
+        <p>&copy; <span id="year"></span> AquaVanguard &middot; Offline Field Guide</p>
+    </footer>
+
+    <script src="app.js"></script>
+    <script src="offline-guide-data.js"></script>
+    <script src="offline-guide.js"></script>
+</body>
+
+</html>
