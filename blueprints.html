@@ -27,6 +27,16 @@
             <a href="blueprints.html" aria-current="page">Act</a>
             <a class="nav-offline" href="offline-guides.html">Offline guides</a>
             <a href="community.html">Verify</a>
+            <a href="impact.html">Impact</a>
+            <div class="language-switcher">
+                <label for="site-language">Language</label>
+                <select id="site-language" name="language" aria-label="Language">
+                    <option value="en">English</option>
+                    <option value="yo">Yorùbá</option>
+                    <option value="pcm">Pidgin</option>
+                </select>
+                <small class="language-review-note">Translations are being reviewed by native speakers.</small>
+            </div>
             <a class="nav-cta" href="report.html">Report</a>
         </nav>
     </header>
@@ -43,7 +53,8 @@
         <section class="act-app" aria-label="Water safety action guidance">
             <div class="act-emergency" role="note">
                 <strong>Possible fuel or toxic chemical contamination?</strong>
-                <p>Do not drink or cook with this water. Boiling, settling, and improvised filters may not remove chemicals. Avoid contact and use a known safe alternative while seeking advice from local water or public-health authorities.</p>
+                <p><span data-i18n="chemicalWater">Do not drink or use water that smells like fuel or chemicals.</span> Boiling, settling, and improvised filters may not remove chemicals. Avoid contact and use a known safe alternative while seeking advice from local water or public-health authorities.</p>
+                <p data-i18n="contactAuthority">Contact your local health or water authority.</p>
             </div>
 
             <section class="act-chooser" aria-labelledby="act-chooser-title">
@@ -186,7 +197,7 @@
                                 <path d="M36 8 66 61H6z" fill="#ffcf70" stroke="#764b0c" stroke-width="3" stroke-linejoin="round" />
                                 <path d="M36 25v17M36 51v2" stroke="#4a3517" stroke-width="5" stroke-linecap="round" />
                             </svg>
-                            <div><strong>Check the hazard first.</strong><p>Follow local boil-water or do-not-use advisories. If fuel or chemicals may be present, do not drink or treat this water at home.</p></div>
+                            <div><strong>Check the hazard first.</strong><p><span data-i18n="floodGerms">Floodwater can carry germs. Avoid contact and follow local boil advice.</span> Follow local do-not-use advisories. If fuel or chemicals may be present, do not drink or treat this water at home.</p></div>
                         </li>
                         <li>
                             <svg viewBox="0 0 72 72" role="img" aria-label="Clear water brought to a rolling boil in a pot">
@@ -235,7 +246,7 @@
                                 <path d="M25 54h22" stroke="#816d4b" stroke-width="6" stroke-linecap="round" />
                                 <circle cx="30" cy="43" r="2" fill="#816d4b" /><circle cx="42" cy="37" r="2" fill="#816d4b" />
                             </svg>
-                            <div><strong>Clarify visible particles only if appropriate.</strong><p>Let sediment settle, then carefully draw off clearer water, or strain through a clean cloth. This is only pre-treatment.</p></div>
+                            <div><strong>Clarify visible particles only if appropriate.</strong><p>Let sediment settle, then carefully draw off clearer water, or strain through a clean cloth. This is only pre-treatment. <span data-i18n="clothSettling">Cloth or settling only removes some visible particles. It does not make water safe to drink.</span></p></div>
                         </li>
                         <li>
                             <svg viewBox="0 0 72 72" role="img" aria-label="Treatment label and test checklist">
@@ -255,7 +266,7 @@
                                 <path d="M36 7 67 62H5z" fill="#ffcf70" stroke="#764b0c" stroke-width="3" stroke-linejoin="round" />
                                 <path d="M36 24v19M36 52v2" stroke="#4a3517" stroke-width="5" stroke-linecap="round" />
                             </svg>
-                            <div><strong>Stop use and avoid contact.</strong><p>Do not drink, cook, brush teeth, or wash food with suspected contaminated water. Keep children and animals away.</p></div>
+                            <div><strong>Stop use and avoid contact.</strong><p><span data-i18n="chemicalWater">Do not drink or use water that smells like fuel or chemicals.</span> Keep children and animals away.</p></div>
                         </li>
                         <li>
                             <svg viewBox="0 0 72 72" role="img" aria-label="Clean alternative water source">
@@ -341,10 +352,12 @@
             <a href="diagnose.html">Diagnose</a>
             <a href="blueprints.html">Act</a>
             <a href="community.html">Verify</a>
+            <a href="impact.html">Impact</a>
         </nav>
         <p>&copy; <span id="year"></span> <span class="logo-word" aria-label="AquaVanguard"><img class="logo-a" src="icons/logo-a.svg" alt="" aria-hidden="true">quaVanguard</span> &middot; Water Quality &middot; Community Action</p>
     </footer>
 
+    <script src="i18n.js"></script>
     <script src="app.js"></script>
     <script src="video-library.js"></script>
     <script src="act.js"></script>

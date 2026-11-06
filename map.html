@@ -27,6 +27,16 @@
             <a href="blueprints.html">Act</a>
             <a class="nav-offline" href="offline-guides.html">Offline guides</a>
             <a href="community.html">Verify</a>
+            <a href="impact.html">Impact</a>
+            <div class="language-switcher">
+                <label for="site-language">Language</label>
+                <select id="site-language" name="language" aria-label="Language">
+                    <option value="en">English</option>
+                    <option value="yo">Yorùbá</option>
+                    <option value="pcm">Pidgin</option>
+                </select>
+                <small class="language-review-note">Translations are being reviewed by native speakers.</small>
+            </div>
             <a class="nav-cta" href="report.html">Report</a>
         </nav>
     </header>
@@ -44,6 +54,7 @@
             <div class="map-demo-note" role="note">
                 <strong>Demo map:</strong> Sample reports are illustrative; community reports are user-entered and unverified. Neither is a verified measurement or current public-health guidance.
             </div>
+            <p class="map-level-legend">High: warning signs such as a fuel or chemical sign, sewage signs or flooding. Medium: some signs. Low: no obvious signs seen. None of these levels means water is safe or unsafe.</p>
 
             <div class="map-toolbar">
                 <div>
@@ -77,6 +88,23 @@
                         <span id="detail-risk" class="detail-risk">Select a pin</span>
                         <h2 id="source-detail-title">Source details</h2>
                         <p id="detail-prompt">Select a map pin or report below to review its sample observations.</p>
+                        <section id="detail-trust-ladder" class="detail-trust-ladder" hidden aria-label="Report trust level">
+                            <strong id="detail-trust-label"></strong>
+                            <p>Verified — locked. Coming with an independent reviewer or test provider.</p>
+                        </section>
+                        <section class="detail-timeline" aria-label="Report status timeline">
+                            <h3>Status timeline</h3>
+                            <ol id="detail-status-timeline" class="status-timeline">
+                                <li data-stage="1">Reported</li>
+                                <li data-stage="2">Shared with a local officer</li>
+                                <li data-stage="3">Action taken</li>
+                                <li data-stage="4">Retested</li>
+                            </ol>
+                            <div id="detail-stage-actions" class="detail-stage-actions" hidden>
+                                <button id="mark-shared-button" class="btn btn-ghost detail-action" type="button">Mark as shared with an officer</button>
+                                <a id="mark-action-link" class="btn btn-ghost detail-action" href="blueprints.html?concern=unknown">Mark action taken · View Act guides</a>
+                            </div>
+                        </section>
                         <dl id="detail-fields" class="detail-fields" hidden>
                             <div>
                                 <dt>Location</dt>
@@ -90,12 +118,28 @@
                                 <dt>Reported</dt>
                                 <dd id="detail-date"></dd>
                             </div>
+                            <div>
+                                <dt>Follow-up level</dt>
+                                <dd id="detail-follow-up-level"></dd>
+                            </div>
+                            <div>
+                                <dt>Follow-up date</dt>
+                                <dd id="detail-follow-up-date"></dd>
+                            </div>
                         </dl>
                         <p id="detail-observation" class="detail-observation" hidden></p>
+                        <div id="detail-follow-up-reasons" class="detail-follow-up-reasons" hidden>
+                            <strong>Reasons</strong>
+                            <ul></ul>
+                        </div>
                         <img id="detail-photo" class="detail-photo" alt="Photo attached to this community report" hidden>
                         <a id="diagnose-source-link" class="btn btn-ghost detail-action" href="diagnose.html">Go to
                             water check</a>
                         <a id="verify-source-link" class="btn btn-ghost detail-action" href="community.html" hidden>Record a retest</a>
+                        <div class="detail-handoff-actions" aria-label="Report handoff tools">
+                            <button id="share-whatsapp-button" class="btn btn-ghost detail-action" type="button" disabled>Share on WhatsApp</button>
+                            <button id="print-report-button" class="btn btn-ghost detail-action" type="button" disabled>Print one-page report</button>
+                        </div>
                     </section>
 
                     <section class="source-list-section" aria-labelledby="source-list-title">
@@ -133,10 +177,41 @@
                 <strong>Safety note</strong>
                 <p>Map reports are community observations, not proof that water is safe or unsafe. Do not drink
                     untreated water based on a map status. Follow public-health advice and use laboratory testing where
-                    available.</p>
+                    available. <span data-i18n="whenInDoubt">When in doubt, do not drink it untreated.</span></p>
+                <p data-i18n="contactAuthority">Contact your local health or water authority.</p>
             </div>
         </section>
     </main>
+
+    <section id="print-report" class="print-report" aria-labelledby="print-report-title" hidden>
+        <h1 id="print-report-title">AquaVanguard</h1>
+        <h2 id="print-source-name"></h2>
+        <dl class="print-report-fields">
+            <div><dt>Area</dt><dd id="print-area"></dd></div>
+            <div><dt>State</dt><dd id="print-state"></dd></div>
+            <div><dt>Source type</dt><dd id="print-type"></dd></div>
+            <div><dt>Follow-up level</dt><dd id="print-level"></dd></div>
+            <div><dt>Report date</dt><dd id="print-date"></dd></div>
+            <div><dt>Follow-up date</dt><dd id="print-follow-up-date"></dd></div>
+        </dl>
+        <section>
+            <h3>Reasons</h3>
+            <ul id="print-reasons"></ul>
+        </section>
+        <section>
+            <h3>Observations</h3>
+            <p id="print-observations"></p>
+        </section>
+        <section>
+            <h3>Status timeline</h3>
+            <ol id="print-timeline" class="print-timeline"></ol>
+        </section>
+        <section>
+            <h3>Retests</h3>
+            <ul id="print-retests"></ul>
+        </section>
+        <p class="print-disclaimer">Community observations, not laboratory results. Not proof that water is safe or unsafe. Contact your local health or water authority.</p>
+    </section>
 
     <footer class="site-footer">
         <nav class="footer-nav" aria-label="Footer">
@@ -146,13 +221,16 @@
             <a href="diagnose.html">Diagnose</a>
             <a href="blueprints.html">Act</a>
             <a href="community.html">Verify</a>
+            <a href="impact.html">Impact</a>
         </nav>
         <p>&copy; <span id="year"></span> <span class="logo-word" aria-label="AquaVanguard"><img class="logo-a" src="icons/logo-a.svg" alt="" aria-hidden="true">quaVanguard</span> &middot; Water Quality &middot; Community Action</p>
     </footer>
 
+    <script src="i18n.js"></script>
     <script src="app.js"></script>
     <script src="data.js"></script>
     <script src="water-data.js"></script>
+    <script src="risk.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="map.js"></script>

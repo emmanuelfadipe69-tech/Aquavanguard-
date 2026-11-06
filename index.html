@@ -100,6 +100,16 @@
             <a href="blueprints.html">Act</a>
             <a class="nav-offline" href="offline-guides.html">Offline guides</a>
             <a href="community.html">Verify</a>
+            <a href="impact.html">Impact</a>
+            <div class="language-switcher">
+                <label for="site-language">Language</label>
+                <select id="site-language" name="language" aria-label="Language">
+                    <option value="en">English</option>
+                    <option value="yo">Yorùbá</option>
+                    <option value="pcm">Pidgin</option>
+                </select>
+                <small class="language-review-note">Translations are being reviewed by native speakers.</small>
+            </div>
             <a class="nav-cta" href="report.html">Report</a>
         </nav>
     </header>
@@ -184,7 +194,7 @@
                 <p>
                     <span class="logo-word" aria-label="AquaVanguard"><img class="logo-a" src="icons/logo-a.svg" alt="" aria-hidden="true">quaVanguard</span> does not replace lab testing. Home filters improve
                     clarity and reduce some contaminants, but they do not guarantee safe
-                    water. Use only a validated treatment suited to the suspected hazard and follow local public-health advice. If fuel or chemicals may be present, do not handle, boil, or filter the water.
+                    water. Use only a validated treatment suited to the suspected hazard and follow local public-health advice. <span data-i18n="whenInDoubt">When in doubt, do not drink it untreated.</span> If fuel or chemicals may be present, do not handle, boil, or filter the water.
                 </p>
             </div>
         </section>
@@ -213,10 +223,12 @@
             <a href="blueprints.html">Act</a>
             <a href="offline-guides.html">Offline guides</a>
             <a href="community.html">Verify</a>
+            <a href="impact.html">Impact</a>
         </nav>
         <p>&copy; <span id="year"></span> <span class="logo-word" aria-label="AquaVanguard"><img class="logo-a" src="icons/logo-a.svg" alt="" aria-hidden="true">quaVanguard</span> &middot; Water Quality &middot; Community Action</p>
     </footer>
 
+    <script src="i18n.js"></script>
     <script src="app.js"></script>
 </body>
 

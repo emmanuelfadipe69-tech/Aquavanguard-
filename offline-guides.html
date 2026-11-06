@@ -25,6 +25,16 @@
             <a href="blueprints.html">Act</a>
             <a class="nav-offline" href="offline-guides.html" aria-current="page">Offline guides</a>
             <a href="community.html">Verify</a>
+            <a href="impact.html">Impact</a>
+            <div class="language-switcher">
+                <label for="site-language">Language</label>
+                <select id="site-language" name="language" aria-label="Language">
+                    <option value="en">English</option>
+                    <option value="yo">Yorùbá</option>
+                    <option value="pcm">Pidgin</option>
+                </select>
+                <small class="language-review-note">Translations are being reviewed by native speakers.</small>
+            </div>
             <a class="nav-cta" href="report.html">Report</a>
         </nav>
     </header>
@@ -40,7 +50,7 @@
         <section class="offline-directory" aria-label="Choose an offline water-safety guide">
             <div class="offline-critical" role="note">
                 <strong>These guides cannot test water.</strong>
-                <p>A cloth or settling step only removes some visible particles. It does not disinfect water or make it safe to drink. If fuel or chemicals may be present, do not handle, boil, or filter the water.</p>
+                <p><span data-i18n="clothSettling">Cloth or settling only removes some visible particles. It does not make water safe to drink.</span> It does not disinfect water. If fuel or chemicals may be present, do not handle, boil, or filter the water.</p>
             </div>
 
             <div class="offline-directory-grid">
@@ -57,7 +67,7 @@
                     <img src="assets/offline-guides/flooded-street.jpg" alt="Floodwater covering a city street" loading="lazy">
                     <span class="offline-card-category">Flood or sewage concern</span>
                     <h2>Floodwater reached a water source</h2>
-                    <p>Avoid floodwater, follow a boil or do-not-use advisory, and keep safe water covered.</p>
+                    <p data-i18n="floodGerms">Floodwater can carry germs. Avoid contact and follow local boil advice.</p>
                     <a class="offline-card-link" href="offline-guide.html?topic=flood">Open field guide <span aria-hidden="true">&rarr;</span></a>
                     <small class="photo-credit">Photo: <a href="https://live.staticflickr.com/1420/5157191333_01fb72ec73_b.jpg" target="_blank" rel="noopener noreferrer">“Vicenza flooding Nov. 1, 2010”</a> by US Army Africa &middot; <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener noreferrer">CC BY 2.0</a></small>
                 </article>
@@ -112,10 +122,12 @@
             <a href="blueprints.html">Act</a>
             <a href="offline-guides.html">Offline guides</a>
             <a href="community.html">Verify</a>
+            <a href="impact.html">Impact</a>
         </nav>
         <p>&copy; <span id="year"></span> <span class="logo-word" aria-label="AquaVanguard"><img class="logo-a" src="icons/logo-a.svg" alt="" aria-hidden="true">quaVanguard</span> &middot; Offline Field Guides</p>
     </footer>
 
+    <script src="i18n.js"></script>
     <script src="app.js"></script>
     <script src="offline-directory.js"></script>
 </body>

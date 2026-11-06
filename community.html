@@ -26,6 +26,16 @@
             <a href="blueprints.html">Act</a>
             <a class="nav-offline" href="offline-guides.html">Offline guides</a>
             <a href="community.html" aria-current="page">Verify</a>
+            <a href="impact.html">Impact</a>
+            <div class="language-switcher">
+                <label for="site-language">Language</label>
+                <select id="site-language" name="language" aria-label="Language">
+                    <option value="en">English</option>
+                    <option value="yo">Yorùbá</option>
+                    <option value="pcm">Pidgin</option>
+                </select>
+                <small class="language-review-note">Translations are being reviewed by native speakers.</small>
+            </div>
             <a class="nav-cta" href="report.html">Report</a>
         </nav>
     </header>
@@ -48,7 +58,18 @@
             <section class="verify-progress" aria-label="Local verification progress">
                 <div><strong id="verify-report-count">0</strong><span>Community reports on this device</span></div>
                 <div><strong id="verify-retest-count">0</strong><span>Retests recorded</span></div>
+                <div><strong id="verify-improvement-count">0</strong><span>Improvements indicated (self-reported)</span></div>
+                <div><strong id="verify-pending-badge-count">0</strong><span>Pending badges</span></div>
                 <div><strong id="verify-points">0</strong><span>Verified improvement points</span></div>
+            </section>
+            <p class="verify-review-note">Verified points remain at 0. They unlock only after review by an independent reviewer or a traceable test provider (planned).</p>
+            <section class="verify-trust-explainer" aria-labelledby="verify-trust-title">
+                <h2 id="verify-trust-title">What do these levels mean?</h2>
+                <ol>
+                    <li><strong>Unverified observation</strong> — a community report with no retest recorded.</li>
+                    <li><strong>Retest recorded (self-reported)</strong> — readings were entered but have not been independently checked.</li>
+                    <li><strong>Verified</strong> — locked. Coming with an independent reviewer or test provider.</li>
+                </ol>
             </section>
 
             <form id="verify-form" class="verify-form">
@@ -98,6 +119,21 @@
 
             <div id="verify-feedback" class="verify-feedback" role="status" hidden></div>
 
+            <section id="verify-result" class="verify-result" aria-live="polite" aria-labelledby="verify-result-title" hidden>
+                <h2 id="verify-result-title">Retest comparison</h2>
+                <p id="verify-result-source"></p>
+                <dl class="verify-result-readings">
+                    <div><dt>Parameter</dt><dd id="verify-result-parameter"></dd></div>
+                    <div><dt>Before</dt><dd id="verify-result-before"></dd></div>
+                    <div><dt>After</dt><dd id="verify-result-after"></dd></div>
+                </dl>
+                <p id="verify-result-change"></p>
+                <p id="verify-result-range-note" hidden>Whether this is better depends on the recommended range for this water use.</p>
+                <span id="verify-result-badge" class="verify-pending-badge">Water Defender (pending)</span>
+                <p class="verify-pending-note">Pending review. Becomes official only after independent verification.</p>
+                <p class="verify-result-disclaimer">This is a self-reported record. It does not show the water is safe.</p>
+            </section>
+
             <section class="verify-history" aria-labelledby="verify-history-title">
                 <h2 id="verify-history-title">Retest history on this device</h2>
                 <div id="verify-history-list" class="verify-history-list"></div>
@@ -106,7 +142,7 @@
 
             <div class="safety">
                 <strong>What unlocks verified rewards later?</strong>
-                <p>A real deployment needs an independent reviewer or a traceable test provider to check the source, method, and comparable results. Only then could a verified improvement earn a badge or points. A lower reading for one indicator never proves water is safe overall.</p>
+                <p>A real deployment needs an independent reviewer or a traceable test provider to check the source, method, and comparable results. Only then could a verified improvement earn official points. A lower reading for one indicator never proves water is safe overall.</p>
             </div>
         </section>
 
@@ -124,10 +160,12 @@
             <a href="diagnose.html">Diagnose</a>
             <a href="blueprints.html">Act</a>
             <a href="community.html">Verify</a>
+            <a href="impact.html">Impact</a>
         </nav>
         <p>&copy; <span id="year"></span> <span class="logo-word" aria-label="AquaVanguard"><img class="logo-a" src="icons/logo-a.svg" alt="" aria-hidden="true">quaVanguard</span> &middot; Water Quality &middot; Community Action</p>
     </footer>
 
+    <script src="i18n.js"></script>
     <script src="app.js"></script>
     <script src="water-data.js"></script>
     <script src="verify.js"></script>

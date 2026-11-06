@@ -12,12 +12,13 @@
   var resultLevel = document.getElementById("diagnose-result-level");
   var resultTitle = document.getElementById("diagnose-result-title");
   var resultSummary = document.getElementById("diagnose-result-summary");
-  var resultActions = document.getElementById("diagnose-result-actions");
   var resultMethod = document.getElementById("diagnose-result-method");
   var resultReasons = document.getElementById("diagnose-result-reasons");
+  var resultActions = document.getElementById("diagnose-result-actions");
   var actionLink = document.getElementById("diagnose-action-link");
   var verifyLink = document.getElementById("diagnose-verify-link");
   var sourceContext = document.getElementById("diagnose-source-context");
+  var saveStatus = document.getElementById("diagnose-save-status");
   var testRecordForm = document.getElementById("test-record-form");
   var testRecordOutput = document.getElementById("test-record-output");
   var testSourceSelect = document.getElementById("test-source-id");
@@ -37,11 +38,14 @@
 
   function renderResult(outcome) {
     resultLevel.textContent = outcome.level;
-    resultLevel.className = "diagnose-result-level " + outcome.className;
-    resultTitle.textContent = outcome.title;
-    resultSummary.textContent = outcome.summary;
-    resultMethod.textContent = outcome.method;
+    var badgeClass = outcome.level === "High" ? "is-high" :
+      outcome.level === "Medium" ? "is-follow-up" : "is-no-warning";
+    resultLevel.className = "diagnose-result-level " + badgeClass;
+    resultTitle.textContent = "Follow-up level: " + outcome.level;
+    resultSummary.textContent = "Screening score: " + outcome.score + ".";
+    resultMethod.textContent = "This is rule-based precautionary guidance, not a validated risk score. Points summarize the observations selected: High applies to a strong warning sign or a total of 6 or more; Medium to 3–5; and Low to 0–2. Rainfall is self-reported context, not a live weather or El Niño feed.";
     resultReasons.replaceChildren();
+    resultActions.replaceChildren();
 
     outcome.reasons.forEach(function (reason) {
       var item = document.createElement("li");
@@ -49,103 +53,69 @@
       resultReasons.appendChild(item);
     });
 
-    resultActions.replaceChildren();
-
-    outcome.actions.forEach(function (action) {
+    var actions = outcome.level === "High" ? [
+      "Use a known safe alternative water source and avoid direct contact if fuel, chemicals, sewage, or waste may be present.",
+      "Report the observation to the appropriate local water or public-health authority and arrange water testing.",
+      "Do not rely on boiling or a household filter to make chemically contaminated water safe."
+    ] : outcome.level === "Medium" ? [
+      "Use a known safe water source for drinking and food preparation until the source has been assessed.",
+      "Arrange testing through a qualified laboratory or local water authority, especially after flooding.",
+      "Record and report what you observed so the source can be checked."
+    ] : [
+      "No warning signs were selected, but unseen contamination was not tested for.",
+      "Use an appropriate tested source or arrange laboratory testing if the water is untreated or its condition is unknown.",
+      "Continue to watch for changes and report concerns."
+    ];
+    actions.forEach(function (action) {
       var item = document.createElement("li");
       item.textContent = action;
       resultActions.appendChild(item);
     });
 
+    var nextStepUrl = new URL(outcome.nextStep, window.location.href);
+    if (sourceId) nextStepUrl.searchParams.set("source", sourceId);
+    actionLink.href = nextStepUrl.href;
     result.hidden = false;
     result.focus();
   }
 
-  function assess(answers) {
-    var urgentSigns = answers.appearance === "severe" ||
-      answers.appearance === "oil" ||
-      answers.smell === "unusual" ||
-      answers.pollution === "spill" ||
-      answers.pollution === "sewage";
-    var followUpSigns = [
-      answers.appearance === "cloudy",
-      answers.pollution === "runoff",
-      answers.flooding === "yes",
-      answers.recentRain === "yes"
-    ].filter(Boolean).length;
-    var reasons = [];
-
-    if (answers.appearance === "cloudy") {
-      reasons.push("Cloudiness, unusual color, or sediment was reported; the cause cannot be identified visually.");
-    } else if (answers.appearance === "severe") {
-      reasons.push("Foam or floating waste was reported; avoid contact and seek an appropriate authority's advice.");
-    } else if (answers.appearance === "oil") {
-      reasons.push("An oil-like sheen was reported; possible fuel or chemical contamination needs authority guidance.");
-    }
-    if (answers.smell === "unusual") {
-      reasons.push("An unusual smell was reported. Smell cannot identify a contaminant, and many hazards have no smell.");
-    }
-    if (answers.pollution === "runoff") {
-      reasons.push("Nearby drainage, waste, or animal activity was reported; this is a reason to arrange follow-up.");
-    } else if (answers.pollution === "sewage") {
-      reasons.push("A possible sewage discharge was reported; contamination has not been confirmed.");
-    } else if (answers.pollution === "spill") {
-      reasons.push("A possible fuel or chemical spill was reported; the substance and exposure are not confirmed.");
-    }
-    if (answers.flooding === "yes") {
-      reasons.push("Flooding may have affected the source; the actual water quality is unknown.");
-    } else if (answers.flooding === "unsure") {
-      reasons.push("Recent flooding is unknown, so this screening cannot rule out a flood-related concern.");
-    }
-    if (answers.recentRain === "yes") {
-      reasons.push("Heavy rain was self-reported near the source. It is context for follow-up, not evidence that the water is contaminated.");
-    }
-
-    if (urgentSigns || followUpSigns >= 2) {
-      return {
-        level: "High concern",
-        className: "is-high",
-        title: "Avoid using this source for drinking or cooking.",
-        summary: "The observations include signs that need prompt attention. This is a precautionary screening result, not a confirmed contamination finding.",
-        method: "This is rule-based precautionary guidance, not a validated risk score. A strong warning sign or multiple reported warning signs lead to this outcome. Rainfall is self-reported context; no live weather or El Niño feed is used.",
-        reasons: reasons.length ? reasons : ["Several warning observations were selected; their cause and severity have not been independently assessed."],
-        actions: [
-          "Use a known safe alternative water source and avoid direct contact if fuel, chemicals, sewage, or waste may be present.",
-          "Report the observation to the appropriate local water or public-health authority and arrange water testing.",
-          "Do not rely on boiling or a household filter to make chemically contaminated water safe."
-        ]
-      };
-    }
-
-    if (followUpSigns === 1 || answers.flooding === "unsure") {
-      return {
-        level: "Follow-up recommended",
-        className: "is-follow-up",
-        title: "Take precautions and arrange a closer check.",
-        summary: "At least one observation may indicate a problem, but this screening cannot determine what is in the water.",
-        method: "This is rule-based precautionary guidance, not a validated risk score. One reported warning sign, recent heavy rain, or uncertainty about flooding leads to this outcome.",
-        reasons: reasons.length ? reasons : ["One or more answers indicate uncertainty that needs follow-up."],
-        actions: [
-          "Use a known safe water source for drinking and food preparation until the source has been assessed.",
-          "Arrange testing through a qualified laboratory or local water authority, especially after flooding.",
-          "Record and report what you observed so the source can be checked."
-        ]
-      };
-    }
-
+  function collectAnswers() {
     return {
-      level: "No warning signs reported",
-      className: "is-no-warning",
-      title: "The answers do not rule out contamination.",
-      summary: "No visible warning signs were selected, but water can contain harmful germs or chemicals while looking and smelling normal.",
-      method: "No listed warning signs were selected. This is not a pass result, safety rating, or test result.",
-      reasons: ["No warning sign was reported in these answers; unseen contamination was not tested for."],
-      actions: [
-        "Do not treat this result as proof that the water is safe to drink.",
-        "Use an appropriate tested source or arrange laboratory testing if the water is untreated or its safety is unknown.",
-        "Continue to watch for changes and report concerns."
-      ]
+      appearance: selectedValue("appearance"),
+      smell: selectedValue("smell"),
+      pollution: selectedValue("pollution"),
+      flooding: selectedValue("flooding"),
+      recentRain: selectedValue("recentRain")
     };
+  }
+
+  function saveFollowUp(outcome) {
+    if (!sourceId || !source) return;
+    if (saveStatus) saveStatus.hidden = true;
+
+    try {
+      if (!window.AquaVanguardStore || !window.AquaVanguardStore.saveFollowUp) {
+        throw new Error("The related source could not be updated in this browser.");
+      }
+      var today = new Date();
+      var date = [
+        today.getFullYear(),
+        String(today.getMonth() + 1).padStart(2, "0"),
+        String(today.getDate()).padStart(2, "0")
+      ].join("-");
+      window.AquaVanguardStore.saveFollowUp({
+        sourceId: sourceId,
+        level: outcome.level,
+        date: date,
+        reasons: outcome.reasons
+      });
+    } catch (error) {
+      if (saveStatus) {
+        saveStatus.textContent = error.message;
+        saveStatus.hidden = false;
+      }
+      console.error("AquaVanguard diagnose: follow-up level could not be saved.", error);
+    }
   }
 
   var params = new URLSearchParams(window.location.search);
@@ -205,34 +175,40 @@
     }
   }
 
+  function showFollowUp() {
+    if (!form.checkValidity()) return;
+    var outcome = window.getFollowUpLevel(collectAnswers());
+    renderResult(outcome);
+    saveFollowUp(outcome);
+  }
+
   form.addEventListener("submit", function (event) {
     event.preventDefault();
     if (!form.reportValidity()) return;
+    showFollowUp();
+  });
 
-    var answers = {
-      appearance: selectedValue("appearance"),
-      smell: selectedValue("smell"),
-      pollution: selectedValue("pollution"),
-      flooding: selectedValue("flooding"),
-      recentRain: selectedValue("recentRain")
-    };
-    var concern = answers.appearance === "oil" || answers.pollution === "spill" ?
-      "chemical" :
-      answers.flooding === "yes" || answers.recentRain === "yes" || answers.pollution === "runoff" ||
-        answers.pollution === "sewage" ?
-        "microbial" :
-        answers.appearance === "cloudy" ? "cloudy" : "unknown";
-
-    if (actionLink) {
-      actionLink.href = "blueprints.html?concern=" + concern +
-        (sourceId ? "&source=" + encodeURIComponent(sourceId) : "");
+  form.addEventListener("change", function (event) {
+    if (event.target.matches('input[type="radio"]') && form.checkValidity()) {
+      showFollowUp();
     }
-    renderResult(assess(answers));
   });
 
   form.addEventListener("reset", function () {
     result.hidden = true;
-    if (actionLink) actionLink.href = "blueprints.html?concern=unknown";
+    resultLevel.textContent = "";
+    resultTitle.textContent = "";
+    resultSummary.textContent = "";
+    resultMethod.textContent = "";
+    resultReasons.replaceChildren();
+    resultActions.replaceChildren();
+    if (actionLink) {
+      actionLink.href = "blueprints.html?concern=unknown#picture-guide-unknown";
+    }
+    if (saveStatus) {
+      saveStatus.textContent = "";
+      saveStatus.hidden = true;
+    }
   });
 
   if (testRecordForm && testRecordOutput) {

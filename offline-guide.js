@@ -276,6 +276,12 @@
     warning.setAttribute("role", "note");
     container.appendChild(warning);
 
+    (guide.translationTips || []).forEach(function (tip) {
+      var message = makeElement("p", "offline-guide-translation-tip", tip.text);
+      message.setAttribute("data-i18n", tip.key);
+      container.appendChild(message);
+    });
+
     if (guide.sizes) {
       renderSizeSelector(container, guide);
       renderCloudyVisuals(container);

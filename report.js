@@ -13,6 +13,7 @@
   var locationStatus = document.getElementById("report-location-status");
   var feedback = document.getElementById("report-feedback");
   var reportCount = document.getElementById("report-count");
+  var reportList = document.getElementById("report-list");
   var photoInput = document.getElementById("report-photo");
   var locationMarker = null;
   var map = null;
@@ -81,8 +82,23 @@
 
   function refreshCount() {
     try {
-      var count = window.AquaVanguardStore.listReports().length;
+      var reports = window.AquaVanguardStore.listReports();
+      var verifications = window.AquaVanguardStore.listVerifications();
+      var count = reports.length;
       reportCount.textContent = count + " report" + (count === 1 ? "" : "s") + " saved in this browser.";
+      reportList.replaceChildren();
+      reports.forEach(function (report) {
+        var item = document.createElement("li");
+        var name = document.createElement("strong");
+        var trust = document.createElement("span");
+        name.textContent = report.name + " · " + report.area;
+        trust.className = "report-trust-label";
+        trust.textContent = verifications.some(function (verification) {
+          return verification.reportId === report.id;
+        }) ? "Retest recorded (self-reported)" : "Unverified observation";
+        item.append(name, trust);
+        reportList.appendChild(item);
+      });
     } catch (error) {
       reportCount.textContent = error.message;
       console.error("AquaVanguard report count failed:", error);
@@ -200,10 +216,26 @@
       if (observations.length) descriptionParts.push(observations.join(", "));
       if (notes) descriptionParts.push(notes);
 
+      var selectedObservations = new Set(observations);
+      var followUp = window.getFollowUpLevel({
+        appearance: selectedObservations.has("Possible fuel or chemical sheen") ? "oil" :
+          selectedObservations.has("Foam or floating waste") ? "severe" :
+            selectedObservations.has("Unusual color or cloudiness") ? "cloudy" : "clear",
+        smell: selectedObservations.has("Unusual smell") ? "unusual" : "none",
+        pollution: selectedObservations.has("Waste or sewage nearby") ? "sewage" : "none",
+        flooding: selectedObservations.has("Recent flooding or heavy rain") ? "yes" : "no",
+        recentRain: "no"
+      });
+      var today = new Date();
+      var followUpDate = [
+        today.getFullYear(),
+        String(today.getMonth() + 1).padStart(2, "0"),
+        String(today.getDate()).padStart(2, "0")
+      ].join("-");
       var lat = Math.round(Number(latInput.value) * 100) / 100;
       var lng = Math.round(Number(lngInput.value) * 100) / 100;
       var status = values.get("status");
-      var risk = status === "problem" ? "high" : "medium";
+      var risk = followUp.level.toLowerCase();
       var source = window.AquaVanguardStore.saveReport({
         state: String(values.get("state")),
         name: String(values.get("name")).trim(),
@@ -211,6 +243,9 @@
         type: String(values.get("type")),
         status: String(status),
         risk: risk,
+        followUpLevel: followUp.level,
+        followUpDate: followUpDate,
+        followUpReasons: followUp.reasons,
         date: new Date().toLocaleDateString(),
         observation: descriptionParts.join(". "),
         lat: lat,

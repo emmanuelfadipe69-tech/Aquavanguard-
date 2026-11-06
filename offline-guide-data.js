@@ -14,6 +14,10 @@
       license: "CC BY 2.0",
       licenseUrl: "https://creativecommons.org/licenses/by/2.0/",
       warning: "This guide is not a water test. If an authority has issued a do-not-use notice, follow it.",
+      translationTips: [
+        { key: "whenInDoubt", text: "When in doubt, do not drink it untreated." },
+        { key: "contactAuthority", text: "Contact your local health or water authority." }
+      ],
       steps: [
         ["Use a confirmed safer supply", "Choose bottled or treated water, or another source confirmed safe by the responsible local authority. Do not assume a new river, well, rain barrel, or clear-looking source is safe."],
         ["Ask what testing is needed", "Contact the local water or public-health authority and describe the source and concern. Ask where and how a sample can be tested."],
@@ -38,6 +42,9 @@
       license: "CC BY 2.0",
       licenseUrl: "https://creativecommons.org/licenses/by/2.0/",
       warning: "Do not enter floodwater to reach, collect, or repair a source. Floodwater may hide electrical, chemical, sewage, and physical hazards.",
+      translationTips: [
+        { key: "floodGerms", text: "Floodwater can carry germs. Avoid contact and follow local boil advice." }
+      ],
       steps: [
         ["Keep people out of floodwater", "Stay clear of flooded wells, streams, pumps, and electrical equipment. Keep children and animals away."],
         ["Pause use of an affected source", "If floodwater entered a well, borehole area, storage tank, or distribution system, use a known safe alternative and ask the local water authority what to do."],
@@ -62,6 +69,9 @@
       license: "CC BY 2.0",
       licenseUrl: "https://creativecommons.org/licenses/by/2.0/",
       warning: "If fuel, oil, chemicals, or an unusual sheen may be present, do not handle or try to clarify the water. Use the chemical-spill guide instead.",
+      translationTips: [
+        { key: "clothSettling", text: "Cloth or settling only removes some visible particles. It does not make water safe to drink." }
+      ],
       sizes: {
         "5": {
           name: "Small batch",
@@ -104,6 +114,10 @@
       license: "CC BY 2.0",
       licenseUrl: "https://creativecommons.org/licenses/by/2.0/",
       warning: "Do not drink, cook, wash, boil, bleach, filter, or touch water suspected of fuel or toxic chemical contamination. Do not approach a spill to take a photo.",
+      translationTips: [
+        { key: "chemicalWater", text: "Do not drink or use water that smells like fuel or chemicals." },
+        { key: "contactAuthority", text: "Contact your local health or water authority." }
+      ],
       steps: [
         ["Stop using the source", "Do not drink it, cook with it, wash with it, or use it for food preparation. Do not test it by tasting or smelling."],
         ["Keep people away", "Avoid contact and keep children and animals away from the water and spill area. Do not enter the water or handle unknown containers."],

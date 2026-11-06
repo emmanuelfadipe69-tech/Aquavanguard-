@@ -28,6 +28,16 @@
             <a href="blueprints.html">Act</a>
             <a class="nav-offline" href="offline-guides.html">Offline guides</a>
             <a href="community.html">Verify</a>
+            <a href="impact.html">Impact</a>
+            <div class="language-switcher">
+                <label for="site-language">Language</label>
+                <select id="site-language" name="language" aria-label="Language">
+                    <option value="en">English</option>
+                    <option value="yo">Yorùbá</option>
+                    <option value="pcm">Pidgin</option>
+                </select>
+                <small class="language-review-note">Translations are being reviewed by native speakers.</small>
+            </div>
             <a class="nav-cta" href="report.html" aria-current="page">Report</a>
         </nav>
     </header>
@@ -142,6 +152,7 @@
             <div class="report-local-records">
                 <h2>Your saved reports on this device</h2>
                 <p id="report-count">Loading local reports...</p>
+                <ul id="report-list" class="report-list" aria-label="Saved reports"></ul>
                 <a class="btn btn-ghost" href="map.html">View reports on the map</a>
                 <button id="report-clear-local" class="btn btn-ghost" type="button">Clear all local demo records</button>
             </div>
@@ -161,14 +172,17 @@
             <a href="diagnose.html">Diagnose</a>
             <a href="blueprints.html">Act</a>
             <a href="community.html">Verify</a>
+            <a href="impact.html">Impact</a>
         </nav>
         <p>&copy; <span id="year"></span> <span class="logo-word" aria-label="AquaVanguard"><img class="logo-a" src="icons/logo-a.svg" alt="" aria-hidden="true">quaVanguard</span> &middot; Water Quality &middot; Community Action</p>
     </footer>
 
+    <script src="i18n.js"></script>
     <script src="app.js"></script>
     <script src="water-data.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="risk.js"></script>
     <script src="report.js"></script>
 </body>
 

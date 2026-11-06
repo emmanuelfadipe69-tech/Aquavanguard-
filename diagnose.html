@@ -25,6 +25,16 @@
             <a href="blueprints.html">Act</a>
             <a class="nav-offline" href="offline-guides.html">Offline guides</a>
             <a href="community.html">Verify</a>
+            <a href="impact.html">Impact</a>
+            <div class="language-switcher">
+                <label for="site-language">Language</label>
+                <select id="site-language" name="language" aria-label="Language">
+                    <option value="en">English</option>
+                    <option value="yo">Yorùbá</option>
+                    <option value="pcm">Pidgin</option>
+                </select>
+                <small class="language-review-note">Translations are being reviewed by native speakers.</small>
+            </div>
             <a class="nav-cta" href="report.html">Report</a>
         </nav>
     </header>
@@ -78,8 +88,24 @@
                             <span>No unusual smell</span>
                         </label>
                         <label class="diagnose-option">
-                            <input type="radio" name="smell" value="unusual">
-                            <span>Musty, sewage-like, fuel-like, chemical, or otherwise unusual</span>
+                            <input type="radio" name="smell" value="musty">
+                            <span>Musty</span>
+                        </label>
+                        <label class="diagnose-option">
+                            <input type="radio" name="smell" value="other">
+                            <span>Other unusual smell</span>
+                        </label>
+                        <label class="diagnose-option">
+                            <input type="radio" name="smell" value="sewage">
+                            <span>Sewage-like</span>
+                        </label>
+                        <label class="diagnose-option">
+                            <input type="radio" name="smell" value="fuel">
+                            <span>Fuel-like</span>
+                        </label>
+                        <label class="diagnose-option">
+                            <input type="radio" name="smell" value="chemical">
+                            <span>Chemical</span>
                         </label>
                     </div>
                 </fieldset>
@@ -162,9 +188,12 @@
                     This screening only reflects the observations you selected. It cannot detect germs, metals, or
                     other invisible contaminants and does not establish whether water is safe.
                 </p>
+                <p class="diagnose-result-screening-note" data-i18n="screeningNote">This is a screening of visible signs, not a water test. Low does not mean the water is safe.</p>
+                <p id="diagnose-save-status" role="status" hidden></p>
                 <div class="diagnose-result-links">
                     <a class="btn btn-ghost" href="map.html">View community map</a>
-                    <a id="diagnose-action-link" class="btn btn-ghost" href="blueprints.html?concern=unknown">Explore treatment guidance</a>
+                    <a id="diagnose-action-link" class="btn btn-ghost"
+                        href="blueprints.html?concern=unknown#picture-guide-unknown">View matching action guidance</a>
                     <a id="diagnose-verify-link" class="btn btn-ghost" href="community.html" hidden>Record a retest</a>
                 </div>
             </section>
@@ -274,7 +303,7 @@
             </section>
 
             <div class="safety diagnose-safety">
-                <strong>When in doubt, don't drink it untreated.</strong>
+                <strong data-i18n="whenInDoubt">When in doubt, do not drink it untreated.</strong>
                 <p>Use a known safe alternative and contact local public-health or water authorities. Boiling and household
                     filters do not remove every chemical contaminant and are not a substitute for water testing.</p>
             </div>
@@ -293,13 +322,16 @@
             <a href="diagnose.html">Diagnose</a>
             <a href="blueprints.html">Act</a>
             <a href="community.html">Verify</a>
+            <a href="impact.html">Impact</a>
         </nav>
         <p>&copy; <span id="year"></span> <span class="logo-word" aria-label="AquaVanguard"><img class="logo-a" src="icons/logo-a.svg" alt="" aria-hidden="true">quaVanguard</span> &middot; Water Quality &middot; Community Action</p>
     </footer>
 
+    <script src="i18n.js"></script>
     <script src="app.js"></script>
     <script src="data.js"></script>
     <script src="water-data.js"></script>
+    <script src="risk.js"></script>
     <script src="diagnose.js"></script>
 </body>
 

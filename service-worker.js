@@ -1,6 +1,6 @@
 "use strict";
 
-var CACHE_NAME = "aquavanguard-shell-v9";
+var CACHE_NAME = "aquavanguard-shell-v14";
 var APP_SHELL = [
   "./",
   "./index.html",
@@ -13,10 +13,12 @@ var APP_SHELL = [
   "./map.html",
   "./report.html",
   "./community.html",
+  "./impact.html",
   "./report.js",
   "./verify.js",
   "./water-data.js",
   "./style.css",
+  "./i18n.js",
   "./app.js",
   "./icons/icon.svg",
   "./icons/logo-a.svg",
@@ -26,6 +28,7 @@ var APP_SHELL = [
   "./offline-guide-data.js",
   "./offline-guide.js",
   "./diagnose.js",
+  "./risk.js",
   "./map.js",
   "./data.js",
   "./assets/offline-guides/water-jerrycans.jpg",

@@ -7,12 +7,13 @@
   function readState() {
     try {
       var raw = window.localStorage.getItem(storageKey);
-      if (!raw) return { reports: [], tests: [], verifications: [] };
+      if (!raw) return { reports: [], tests: [], verifications: [], followUps: [] };
       var state = JSON.parse(raw);
       return {
         reports: Array.isArray(state.reports) ? state.reports : [],
         tests: Array.isArray(state.tests) ? state.tests : [],
-        verifications: Array.isArray(state.verifications) ? state.verifications : []
+        verifications: Array.isArray(state.verifications) ? state.verifications : [],
+        followUps: Array.isArray(state.followUps) ? state.followUps : []
       };
     } catch (error) {
       console.error("AquaVanguard local records could not be read:", error);
@@ -45,6 +46,44 @@
     }) || null;
   }
 
+  function saveFollowUp(followUp) {
+    if (!followUp || !followUp.sourceId ||
+        !["Low", "Medium", "High"].includes(followUp.level) ||
+        !/^\d{4}-\d{2}-\d{2}$/.test(followUp.date) ||
+        !Array.isArray(followUp.reasons)) {
+      throw new Error("A valid follow-up level, date, reasons, and source are required.");
+    }
+
+    var state = readState();
+    var saved = {
+      sourceId: followUp.sourceId,
+      level: followUp.level,
+      date: followUp.date,
+      reasons: followUp.reasons.slice()
+    };
+    var report = state.reports.find(function (item) {
+      return item.id === followUp.sourceId;
+    });
+
+    if (report) {
+      report.followUpLevel = saved.level;
+      report.followUpDate = saved.date;
+      report.followUpReasons = saved.reasons;
+    } else {
+      var existing = state.followUps.find(function (item) {
+        return item.sourceId === saved.sourceId;
+      });
+      if (existing) {
+        Object.assign(existing, saved);
+      } else {
+        state.followUps.unshift(saved);
+      }
+    }
+
+    writeState(state);
+    return saved;
+  }
+
   function saveReport(report) {
     var state = readState();
     if (state.reports.length >= 40) {
@@ -53,6 +92,7 @@
     var saved = Object.assign({}, report, {
       id: createId("report"),
       createdAt: new Date().toISOString(),
+      timelineStage: 1,
       verificationStatus: "not-retested"
     });
     state.reports.unshift(saved);
@@ -99,12 +139,30 @@
       id: createId("retest"),
       createdAt: new Date().toISOString(),
       verificationStatus: "awaiting-independent-review",
-      pointsAwarded: 0
+      pointsAwarded: 0,
+      pendingBadge: "Water Defender (pending)"
     });
     state.verifications.unshift(saved);
     report.verificationStatus = "awaiting-independent-review";
+    report.timelineStage = 4;
     writeState(state);
     return saved;
+  }
+
+  function updateReportStage(reportId, stage) {
+    if (![2, 3].includes(stage)) {
+      throw new Error("Report stage must be shared or action taken.");
+    }
+
+    var state = readState();
+    var report = state.reports.find(function (item) {
+      return item.id === reportId;
+    });
+    if (!report) throw new Error("That saved community report could not be found.");
+
+    report.timelineStage = Math.max(report.timelineStage || 1, stage);
+    writeState(state);
+    return report;
   }
 
   function listVerifications(reportId) {
@@ -140,8 +198,10 @@
     listTests: listTests,
     listVerifications: listVerifications,
     saveReport: saveReport,
+    saveFollowUp: saveFollowUp,
     saveTest: saveTest,
     saveVerification: saveVerification,
+    updateReportStage: updateReportStage,
     counts: counts
   };
 })();
