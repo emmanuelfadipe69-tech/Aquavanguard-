@@ -22,10 +22,26 @@
     ondo: { center: [7.2571, 5.2058], bounds: [[5.75, 4.25], [7.6, 6.1]] }
   };
 
-  function showFeedback(message, isError) {
+  function showFeedback(message, isError, includeBrand) {
     feedback.replaceChildren();
     var text = document.createElement("p");
-    text.textContent = message;
+    if (includeBrand) {
+      text.appendChild(document.createTextNode("All "));
+      var logo = document.createElement("span");
+      logo.className = "logo-word";
+      logo.setAttribute("aria-label", "AquaVanguard");
+      var logoImage = document.createElement("img");
+      logoImage.className = "logo-a";
+      logoImage.src = "icons/logo-a.svg";
+      logoImage.alt = "";
+      logoImage.setAttribute("aria-hidden", "true");
+      logo.appendChild(logoImage);
+      logo.appendChild(document.createTextNode("quaVanguard"));
+      text.appendChild(logo);
+      text.appendChild(document.createTextNode(" demo records were removed from this browser."));
+    } else {
+      text.textContent = message;
+    }
     feedback.appendChild(text);
     if (!isError) {
       var link = document.createElement("a");
@@ -236,11 +252,11 @@
   });
 
   document.getElementById("report-clear-local").addEventListener("click", function () {
-    if (!window.confirm("Clear all AquaVanguard community reports, test entries, and retests saved in this browser? This cannot be undone.")) return;
+    if (!window.confirm("Clear all community reports, test entries, and retests saved in this browser? This cannot be undone.")) return;
     try {
       window.AquaVanguardStore.clear();
       refreshCount();
-      showFeedback("All AquaVanguard demo records were removed from this browser.", false);
+      showFeedback("", false, true);
     } catch (error) {
       showFeedback(error.message, true);
       console.error("AquaVanguard local records could not be cleared.", error);

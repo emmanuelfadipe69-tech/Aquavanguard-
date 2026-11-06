@@ -4,10 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#0A2540">
+    <meta name="theme-color" content="#000000">
     <meta name="robots" content="noindex">
     <title>You're offline &middot; AquaVanguard</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+    <link rel="manifest" href="manifest.json">
     <style>
         .offline-page {
             display: grid;
@@ -57,7 +59,7 @@
 <body>
     <main class="offline-page">
         <section class="offline-card" aria-labelledby="offline-title">
-            <span class="step-tag">AquaVanguard offline</span>
+            <span class="step-tag"><span class="logo-word" aria-label="AquaVanguard"><img class="logo-a" src="icons/logo-a.svg" alt="" aria-hidden="true">quaVanguard</span> offline</span>
             <h1 id="offline-title">You are not connected</h1>
             <p>The page you requested isn’t available offline. You can still open the saved picture-based water-safety guides if they were saved on this device.</p>
             <div class="offline-actions">

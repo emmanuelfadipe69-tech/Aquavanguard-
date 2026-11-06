@@ -1,6 +1,6 @@
 "use strict";
 
-var CACHE_NAME = "aquavanguard-shell-v8";
+var CACHE_NAME = "aquavanguard-shell-v9";
 var APP_SHELL = [
   "./",
   "./index.html",
@@ -18,6 +18,8 @@ var APP_SHELL = [
   "./water-data.js",
   "./style.css",
   "./app.js",
+  "./icons/icon.svg",
+  "./icons/logo-a.svg",
   "./act.js",
   "./video-library.js",
   "./offline-directory.js",

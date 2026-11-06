@@ -652,7 +652,7 @@
 
     saveOfflineButton.disabled = true;
     offlineStatus.textContent = "Saving the app pages and picture guides for offline use...";
-    navigator.serviceWorker.register("./service-worker.js")
+    navigator.serviceWorker.register("./sw.js")
       .then(function () {
         return getActiveWorker();
       })

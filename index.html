@@ -5,10 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AquaVanguard</title>
-    <meta name="theme-color" content="#0A2540">
+    <meta name="theme-color" content="#000000">
     <meta name="description"
         content="AquaVanguard helps communities find unsafe water, treat it, and prove it's cleaner.">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+    <link rel="manifest" href="manifest.json">
 
     <!-- Decides BEFORE the page paints whether the 4-second intro should play.
        It is skipped on repeat visits (same session), for people who prefer
@@ -34,7 +36,9 @@
     <!-- ============ 4-SECOND INTRO (localized water reveals the brand) ============ -->
     <div id="intro" class="intro" aria-hidden="true">
         <div class="intro-stage">
-            <h1 class="intro-brand intro-brand-base" aria-hidden="true">AQUAVANGUARD</h1>
+            <h1 class="intro-brand intro-brand-base" aria-hidden="true">
+                <span class="logo-word" aria-label="AquaVanguard"><img class="logo-a" src="icons/logo-a.svg" alt="" aria-hidden="true">QUAVANGUARD</span>
+            </h1>
             <svg class="intro-current" viewBox="0 0 760 190" preserveAspectRatio="none" aria-hidden="true">
                 <defs>
                     <linearGradient id="current-body" x1="0" y1="0" x2="0.15" y2="1">
@@ -76,7 +80,7 @@
                 </g>
             </svg>
             <h1 class="intro-brand intro-brand-water" aria-label="AquaVanguard">
-                <span>A</span><span>Q</span><span>U</span><span>A</span><span>V</span><span>A</span><span>N</span><span>G</span><span>U</span><span>A</span><span>R</span><span>D</span>
+                <span><img class="logo-a" src="icons/logo-a.svg" alt="" aria-hidden="true"></span><span>Q</span><span>U</span><span>A</span><span>V</span><span>A</span><span>N</span><span>G</span><span>U</span><span>A</span><span>R</span><span>D</span>
             </h1>
         </div>
         <p class="tagline">Find unsafe water. Treat it. Prove it's cleaner.</p>
@@ -85,7 +89,7 @@
 
     <!-- ============ LANDING PAGE ============ -->
     <header class="site-header">
-        <a class="wordmark" href="index.html"><span class="a">A</span>QUAVANGUARD</a>
+        <a class="wordmark" href="index.html"><span class="logo-word" aria-label="AquaVanguard"><img class="logo-a" src="icons/logo-a.svg" alt="" aria-hidden="true">QUAVANGUARD</span></a>
         <nav class="nav" aria-label="Main">
             <a href="map.html">Map</a>
             <a href="diagnose.html">Diagnose</a>
@@ -101,7 +105,7 @@
             <p class="eyebrow">Water Quality &middot; Community Action</p>
             <h1>Find unsafe water. <span class="accent">Treat it.</span> Prove it's cleaner.</h1>
             <p class="lead">
-                AquaVanguard helps communities report polluted water sources, check the
+                <span class="logo-word" aria-label="AquaVanguard"><img class="logo-a" src="icons/logo-a.svg" alt="" aria-hidden="true">quaVanguard</span> helps communities report polluted water sources, check the
                 risk, build a low-cost filter, and confirm the water actually improved.
             </p>
             <div class="cta">
@@ -174,7 +178,7 @@
             <div class="safety">
                 <strong>Safety note</strong>
                 <p>
-                    AquaVanguard does not replace lab testing. Home filters improve
+                    <span class="logo-word" aria-label="AquaVanguard"><img class="logo-a" src="icons/logo-a.svg" alt="" aria-hidden="true">quaVanguard</span> does not replace lab testing. Home filters improve
                     clarity and reduce some contaminants, but they do not guarantee safe
                     water. Always boil or disinfect drinking water after filtering.
                 </p>
@@ -206,7 +210,7 @@
             <a href="offline-guides.html">Offline guides</a>
             <a href="community.html">Verify</a>
         </nav>
-        <p>&copy; <span id="year"></span> AquaVanguard &middot; Water Quality &middot; Community Action</p>
+        <p>&copy; <span id="year"></span> <span class="logo-word" aria-label="AquaVanguard"><img class="logo-a" src="icons/logo-a.svg" alt="" aria-hidden="true">quaVanguard</span> &middot; Water Quality &middot; Community Action</p>
     </footer>
 
     <script src="app.js"></script>

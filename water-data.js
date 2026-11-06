@@ -16,7 +16,7 @@
       };
     } catch (error) {
       console.error("AquaVanguard local records could not be read:", error);
-      throw new Error("Saved records could not be read in this browser. Check storage permissions or clear the AquaVanguard demo data.");
+      throw new Error("Saved records could not be read in this browser. Check storage permissions or clear the demo data.");
     }
   }
 

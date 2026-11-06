@@ -225,7 +225,13 @@
 
   if ("serviceWorker" in navigator && window.isSecureContext) {
     window.addEventListener("load", function () {
-      navigator.serviceWorker.register("./service-worker.js").catch(function (error) {
+      var serviceWorkerUrl = new URL("./sw.js", window.location.href).href;
+      navigator.serviceWorker.getRegistration("./").then(function (registration) {
+        var worker = registration &&
+          (registration.active || registration.waiting || registration.installing);
+        if (worker && worker.scriptURL === serviceWorkerUrl) return registration;
+        return navigator.serviceWorker.register(serviceWorkerUrl);
+      }).catch(function (error) {
         console.error("AquaVanguard offline support could not be registered:", error);
       });
     });

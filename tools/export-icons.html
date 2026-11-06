@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Export AquaVanguard icons</title>
+    <style>
+        :root {
+            color-scheme: dark;
+            font-family: system-ui, sans-serif;
+            background: #0a2540;
+            color: #fff;
+        }
+
+        body {
+            box-sizing: border-box;
+            width: min(100% - 2rem, 760px);
+            margin: 0 auto;
+            padding: 3rem 0;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        .exports {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 1rem;
+        }
+
+        .export-card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .preview {
+            width: 96px;
+            height: 96px;
+            image-rendering: auto;
+            background:
+                linear-gradient(45deg, #253b50 25%, transparent 25%),
+                linear-gradient(-45deg, #253b50 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #253b50 75%),
+                linear-gradient(-45deg, transparent 75%, #253b50 75%);
+            background-size: 16px 16px;
+            background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+        }
+
+        button {
+            min-height: 44px;
+            padding: 0.65rem 0.9rem;
+            border: 0;
+            border-radius: 8px;
+            background: #38bdf8;
+            color: #05253a;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            cursor: wait;
+            opacity: 0.6;
+        }
+
+        button:focus-visible {
+            outline: 3px solid #f6cc73;
+            outline-offset: 3px;
+        }
+
+        #status {
+            min-height: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Export app icons</h1>
+        <p>Save the downloaded files into the icons folder.</p>
+        <p id="status" role="status" aria-live="polite">Loading SVG icons…</p>
+        <div class="exports">
+            <section class="export-card">
+                <canvas class="preview" id="preview-192" width="192" height="192" aria-label="192 by 192 icon preview"></canvas>
+                <button type="button" data-source="icon" data-size="192" data-filename="icon-192.png" disabled>Download icon-192.png</button>
+            </section>
+            <section class="export-card">
+                <canvas class="preview" id="preview-512" width="512" height="512" aria-label="512 by 512 icon preview"></canvas>
+                <button type="button" data-source="icon" data-size="512" data-filename="icon-512.png" disabled>Download icon-512.png</button>
+            </section>
+            <section class="export-card">
+                <canvas class="preview" id="preview-maskable" width="512" height="512" aria-label="512 by 512 maskable icon preview"></canvas>
+                <button type="button" data-source="maskable" data-size="512" data-filename="icon-maskable-512.png" disabled>Download icon-maskable-512.png</button>
+            </section>
+        </div>
+    </main>
+    <script>
+        (function () {
+            "use strict";
+
+            var status = document.getElementById("status");
+            var buttons = Array.from(document.querySelectorAll("button[data-source]"));
+            var sources = {
+                icon: new Image(),
+                maskable: new Image()
+            };
+            var loaded = 0;
+            var failed = false;
+
+            sources.icon.src = "../icons/icon.svg";
+            sources.maskable.src = "../icons/icon-maskable.svg";
+
+            Object.keys(sources).forEach(function (key) {
+                var image = sources[key];
+                image.addEventListener("load", function () {
+                    if (failed) return;
+                    loaded += 1;
+                    if (loaded === Object.keys(sources).length) {
+                        drawPreviews();
+                        buttons.forEach(function (button) {
+                            button.disabled = false;
+                        });
+                        status.textContent = "Icons are ready to export.";
+                    }
+                });
+                image.addEventListener("error", function () {
+                    failed = true;
+                    status.textContent = "An SVG could not be loaded. Open this page through Live Server on port 5500.";
+                });
+            });
+
+            function drawPreviews() {
+                [
+                    { id: "preview-192", source: "icon" },
+                    { id: "preview-512", source: "icon" },
+                    { id: "preview-maskable", source: "maskable" }
+                ].forEach(function (preview) {
+                    var canvas = document.getElementById(preview.id);
+                    var context = canvas.getContext("2d");
+                    if (!context) {
+                        status.textContent = "Your browser could not create a canvas context.";
+                        buttons.forEach(function (button) {
+                            button.disabled = true;
+                        });
+                        return;
+                    }
+                    context.drawImage(sources[preview.source], 0, 0, canvas.width, canvas.height);
+                });
+            }
+
+            buttons.forEach(function (button) {
+                button.addEventListener("click", function () {
+                    var size = Number(button.dataset.size);
+                    var canvas = document.createElement("canvas");
+                    canvas.width = size;
+                    canvas.height = size;
+                    var context = canvas.getContext("2d");
+                    if (!context) {
+                        status.textContent = "Your browser could not create a canvas context.";
+                        return;
+                    }
+
+                    context.drawImage(sources[button.dataset.source], 0, 0, size, size);
+                    button.disabled = true;
+                    canvas.toBlob(function (blob) {
+                        button.disabled = false;
+                        if (!blob) {
+                            status.textContent = "The PNG could not be created. Please try again.";
+                            return;
+                        }
+
+                        var url = URL.createObjectURL(blob);
+                        var link = document.createElement("a");
+                        link.href = url;
+                        link.download = button.dataset.filename;
+                        document.body.appendChild(link);
+                        link.click();
+                        link.remove();
+                        window.setTimeout(function () {
+                            URL.revokeObjectURL(url);
+                        }, 1000);
+                        status.textContent = "Downloaded " + button.dataset.filename + ".";
+                    }, "image/png");
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
