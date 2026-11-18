@@ -1,6 +1,6 @@
 "use strict";
 
-var CACHE_NAME = "aquavanguard-shell-v14";
+var CACHE_NAME = "AquaVanguard-shell-v14";
 var APP_SHELL = [
   "./",
   "./index.html",
@@ -118,7 +118,7 @@ self.addEventListener("activate", function (event) {
   event.waitUntil(
     caches.keys().then(function (cacheNames) {
       return Promise.all(cacheNames.map(function (cacheName) {
-        if (cacheName.indexOf("aquavanguard-shell-") === 0 && cacheName !== CACHE_NAME) {
+        if (cacheName.indexOf("AquaVanguard-shell-") === 0 && cacheName !== CACHE_NAME) {
           return caches.delete(cacheName);
         }
       }));
@@ -168,3 +168,7 @@ self.addEventListener("fetch", function (event) {
     })
   );
 });
+
+
+
+

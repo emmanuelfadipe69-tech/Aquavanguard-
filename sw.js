@@ -1,6 +1,6 @@
 "use strict";
 
-var CACHE_NAME = "aquavanguard-pwa-v13";
+var CACHE_NAME = "AquaVanguard-pwa-v13";
 var APP_SHELL = [
   "./",
   "./index.html",
@@ -123,7 +123,7 @@ self.addEventListener("activate", function (event) {
   event.waitUntil(
     caches.keys().then(function (cacheNames) {
       return Promise.all(cacheNames.map(function (cacheName) {
-        if (cacheName.indexOf("aquavanguard-pwa-") === 0 && cacheName !== CACHE_NAME) {
+        if (cacheName.indexOf("AquaVanguard-pwa-") === 0 && cacheName !== CACHE_NAME) {
           return caches.delete(cacheName);
         }
       }));
@@ -169,3 +169,8 @@ self.addEventListener("fetch", function (event) {
     })
   );
 });
+
+
+
+
+

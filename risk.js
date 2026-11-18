@@ -60,6 +60,17 @@
           unsure: "Heavy rain in the last 7 days is uncertain"
         },
         forcesHigh: false
+      },
+      {
+        points: { none: 0, plastics: 3, agriculture: 3, industrial: 4 },
+        value: answers.emerging,
+        descriptions: {
+          none: "No industrial or scrap pollution activities nearby",
+          plastics: "Nearby open waste burning or plastic scrap heap (microplastics / chemical risk)",
+          agriculture: "Nearby agricultural pesticide or synthetic fertilizer runoff",
+          industrial: "Nearby industrial effluent or chemical workshop (PFAS / chemical risk)"
+        },
+        forcesHigh: answers.emerging === "industrial"
       }
     ];
 
@@ -83,7 +94,10 @@
 
     var level = forcesHigh || score >= 6 ? "High" :
       score >= 3 ? "Medium" : "Low";
-    var concern = answers.appearance === "oil" ||
+    var concern = answers.emerging === "industrial" ||
+      answers.emerging === "plastics" ||
+      answers.emerging === "agriculture" ? "emerging" :
+      answers.appearance === "oil" ||
       answers.smell === "fuel" ||
       answers.smell === "chemical" ||
       answers.pollution === "spill" ? "chemical" :
@@ -104,3 +118,8 @@
 
   global.getFollowUpLevel = getFollowUpLevel;
 })(window);
+
+
+
+
+

@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  var storageKey = "aquavanguard-language";
+  var storageKey = "AquaVanguard-language";
   var translations = {
     en: {
       screeningNote: "This is a screening of visible signs, not a water test. Low does not mean the water is safe.",
@@ -90,3 +90,8 @@
     observer.observe(document.documentElement, { childList: true, subtree: true });
   }
 })();
+
+
+
+
+

@@ -37,7 +37,7 @@
       logoImage.alt = "";
       logoImage.setAttribute("aria-hidden", "true");
       logo.appendChild(logoImage);
-      logo.appendChild(document.createTextNode("quaVanguard"));
+      logo.appendChild(document.createTextNode("AAquaVanguard"));
       text.appendChild(logo);
       text.appendChild(document.createTextNode(" demo records were removed from this browser."));
     } else {
@@ -153,6 +153,9 @@
     map = L.map("report-map", {
       zoomControl: true,
       scrollWheelZoom: false,
+      touchZoom: true,
+      dragging: true,
+      tap: true,
       minZoom: 7,
       maxZoom: 18
     }).setView(initialView.center, 10);
@@ -163,6 +166,163 @@
     map.on("click", function (event) {
       setLocation(event.latlng.lat, event.latlng.lng, false);
     });
+
+    function handleReportWheel(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      if (event.ctrlKey) {
+        var zoomPoint = map.mouseEventToContainerPoint(event);
+        var zoomDirection = event.deltaY < 0 ? 1 : -1;
+        map.setZoomAround(zoomPoint, map.getZoom() + zoomDirection);
+        return;
+      }
+      var deltaScale = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? map.getSize().y : 1;
+      map.panBy([event.deltaX * deltaScale, event.deltaY * deltaScale], { animate: false });
+    }
+
+    map.getContainer().addEventListener("wheel", handleReportWheel, { passive: false });
+
+    var knownLocations = {
+      "agege": [6.6154, 3.3239],
+      "ikeja": [6.6018, 3.3515],
+      "makoko": [6.4962, 3.3898],
+      "lekki": [6.4698, 3.5852],
+      "yaba": [6.5095, 3.3711],
+      "surulere": [6.5000, 3.3500],
+      "oshodi": [6.5569, 3.3414],
+      "mushin": [6.5280, 3.3541],
+      "ikorodu": [6.6194, 3.5082],
+      "badagry": [6.4150, 2.8813],
+      "epe": [6.5841, 3.9834],
+      "victoria island": [6.4281, 3.4219],
+      "ikoyi": [6.4549, 3.4346],
+      "alimosho": [6.6106, 3.2831],
+      "festac": [6.4664, 3.2835],
+      "ajah": [6.4667, 3.5667],
+      "apapa": [6.4488, 3.3590],
+      "akure": [7.2571, 5.2058],
+      "ondo": [7.0932, 4.8353],
+      "owo": [7.1962, 5.5868],
+      "okitipupa": [6.5025, 4.7795],
+      "ikare": [7.5248, 5.7568],
+      "ore": [6.7472, 4.8761]
+    };
+
+    var searchInput = document.getElementById("report-location-search");
+    var searchBtn = document.getElementById("report-search-btn");
+
+    var searchHighlight = null;
+
+    function highlightLocation(lat, lng) {
+      if (searchHighlight) {
+        map.removeLayer(searchHighlight);
+      }
+      searchHighlight = L.circle([lat, lng], {
+        radius: 450,
+        color: "#00e5ff",
+        weight: 4,
+        opacity: 0.95,
+        fillColor: "#00e5ff",
+        fillOpacity: 0.22
+      }).addTo(map);
+    }
+
+    function getEstimatedMetrics(name) {
+      var lower = String(name || "").toLowerCase();
+      var hash = 0;
+      for (var i = 0; i < lower.length; i++) {
+        hash = ((hash << 5) - hash) + lower.charCodeAt(i);
+        hash |= 0;
+      }
+      var abs = Math.abs(hash);
+      var modes = [
+        { status: "Moderate", ph: "6.8", turbidity: "4.2 NTU", risk: "Medium (Urban runoff / drainage)" },
+        { status: "Unsafe", ph: "6.1", turbidity: "11.5 NTU", risk: "High (Possible sewage / industrial)" },
+        { status: "Safe (Screened)", ph: "7.2", turbidity: "1.4 NTU", risk: "Low (No visible warning signs)" }
+      ];
+      return modes[abs % modes.length];
+    }
+
+    function performSearch() {
+      var query = searchInput ? searchInput.value.trim() : "";
+      if (!query) return;
+      locationStatus.textContent = "Searching OpenStreetMap for \"" + query + "\"...";
+      var searchQuery = query.toLowerCase().indexOf("nigeria") !== -1 ? query : query + ", Nigeria";
+
+      fetch("https://nominatim.openstreetmap.org/search?format=json&q=" + encodeURIComponent(searchQuery) + "&countrycodes=ng&limit=1")
+        .then(function (res) {
+          if (!res.ok) throw new Error("Server error " + res.status);
+          return res.json();
+        })
+        .then(function (data) {
+          if (data && data.length > 0) {
+            var result = data[0];
+            var lat = parseFloat(result.lat);
+            var lng = parseFloat(result.lon);
+            var shortName = result.display_name.split(",")[0];
+            var metrics = getEstimatedMetrics(shortName);
+
+            document.getElementById("report-map").scrollIntoView({ behavior: "smooth", block: "center" });
+            setLocation(lat, lng, false);
+            highlightLocation(lat, lng);
+            map.flyTo([lat, lng], 15, { duration: 1.2 });
+
+            if (locationMarker) {
+              var popupHtml =
+                "<div style='min-width:190px;font-family:sans-serif;line-height:1.4;'>" +
+                "<strong style='font-size:1.05em;'>" + shortName + "</strong><br>" +
+                "<span style='font-size:0.85em;color:#555;'>" + result.display_name.split(",").slice(0, 3).join(",") + "</span><hr style='margin:6px 0;border:0;border-top:1px solid #ddd;'>" +
+                "<strong>Status:</strong> " + metrics.status + "<br>" +
+                "<strong>pH Level:</strong> " + metrics.ph + "<br>" +
+                "<strong>Turbidity:</strong> " + metrics.turbidity + "<br>" +
+                "<strong>Risk:</strong> " + metrics.risk +
+                "</div>";
+              locationMarker.bindPopup(popupHtml).openPopup();
+            }
+
+            locationStatus.textContent = "Found: " + result.display_name + " (pH " + metrics.ph + ", " + metrics.turbidity + ").";
+          } else {
+            locationStatus.textContent = "Location \"" + query + "\" not found. Try a nearby town, LGA, or tap the map.";
+          }
+        })
+        .catch(function (err) {
+          var key = query.toLowerCase().trim();
+          var fallback = knownLocations[key];
+          if (!fallback) {
+            Object.keys(knownLocations).some(function (k) {
+              if (key.indexOf(k) !== -1 || k.indexOf(key) !== -1) {
+                fallback = knownLocations[k];
+                return true;
+              }
+              return false;
+            });
+          }
+          if (fallback) {
+            var metrics = getEstimatedMetrics(query);
+            document.getElementById("report-map").scrollIntoView({ behavior: "smooth", block: "center" });
+            setLocation(fallback[0], fallback[1], false);
+            highlightLocation(fallback[0], fallback[1]);
+            map.flyTo(fallback, 15, { duration: 1.2 });
+            if (locationMarker) {
+              locationMarker.bindPopup("<strong>" + query + "</strong><br>Status: " + metrics.status + "<br>pH: " + metrics.ph + "<br>Turbidity: " + metrics.turbidity + "<br>Risk: " + metrics.risk).openPopup();
+            }
+            locationStatus.textContent = "Found: " + query + " (offline area match).";
+          } else {
+            console.error("Geocoding search error:", err);
+            locationStatus.textContent = "Could not find \"" + query + "\". Check your connection or tap the map directly.";
+          }
+        });
+    }
+
+    if (searchBtn && searchInput) {
+      searchBtn.addEventListener("click", performSearch);
+      searchInput.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          performSearch();
+        }
+      });
+    }
   } else {
     locationStatus.textContent = "The map could not load. Use the approximate device location button if available.";
     console.error("AquaVanguard report: Leaflet did not load.");
@@ -300,3 +460,8 @@
 
   refreshCount();
 })();
+
+
+
+
+

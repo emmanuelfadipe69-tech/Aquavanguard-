@@ -39,10 +39,12 @@
     microbial: "Germs or flooding",
     cloudy: "Cloudy water",
     chemical: "Fuel or chemicals",
+    emerging: "Emerging contaminants",
+    nature: "Nature-based defenses",
     shortage: "Water shortage",
     storage: "Safe storage"
   };
-  var videoHistoryKey = "aquavanguard-video-history-v1";
+  var videoHistoryKey = "AquaVanguard-video-history-v1";
   var blueprintTitle = document.getElementById("act-blueprint-title");
   var blueprintSummary = document.getElementById("act-blueprint-summary");
   var blueprintMaterials = document.getElementById("act-blueprint-materials");
@@ -74,6 +76,18 @@
       summary: "There is no DIY filter or boiling build recommended for suspected fuel or toxic chemical contamination. Focus on avoiding exposure and reporting the hazard.",
       materials: ["Known safe alternative water supply", "Local water or public-health authority contact", "A safe way to keep children and animals away from the affected area"],
       safety: "Do not drink, cook, boil, chlorinate, settle, or filter suspected chemically contaminated water. Ask authorities about testing and cleanup."
+    },
+    emerging: {
+      title: "Emerging contaminants (PFAS, Microplastics, Agrochemicals)",
+      summary: "PFAS ('forever chemicals'), microplastics, and dissolved pharmaceuticals are invisible and cannot be boiled or strained out with household cloth.",
+      materials: ["Known safe bottled or certified municipal water supply", "Certified Granular Activated Carbon (GAC) or Reverse Osmosis (RO) unit where available", "Reporting form for local environmental protection board"],
+      safety: "Boiling water evaporates clean steam and CONCENTRATES chemical toxins and PFAS. Never rely on boiling or cloth straining for chemical/industrial runoff."
+    },
+    nature: {
+      title: "Nature-Based Solutions (NBS) & Buffer Protection",
+      summary: "Community-led biological catchment protections, riparian vegetation buffers, and bio-retention swales to filter runoff before it enters wells or streams.",
+      materials: ["Native deep-rooted grasses (e.g. Vetiver grass hedgerows)", "Gravel, coarse sand, and reed bed trenches for greywater swales", "Community signage for wellhead protection zones (15–30m perimeter)"],
+      safety: "Nature-based buffers reduce runoff pollution entering water bodies; they do not replace point-of-use disinfection for untreated surface water."
     }
   };
 
@@ -122,6 +136,29 @@
         "Report the location and observation to the appropriate local water or public-health authority and ask for testing and cleanup guidance."
       ],
       caution: "Do not try to make suspected chemical contamination safe by boiling, chlorinating, settling, or using a homemade filter."
+    },
+    emerging: {
+      label: "Emerging contaminants (PFAS, Microplastics)",
+      title: "Recognize invisible contaminants; avoid false treatment security.",
+      summary: "PFAS ('forever chemicals'), microplastics, and pharmaceutical residues cannot be seen, smelled, or boiled away. Standard boiling concentrates dissolved PFAS.",
+      steps: [
+        "Switch to a known safe municipal or certified bottled alternative for drinking and food prep.",
+        "Do not boil or use cloth straining expecting to remove PFAS or heavy metals.",
+        "For household treatment, rely only on certified Reverse Osmosis (RO) or Granular Activated Carbon (GAC) systems tested against NSF/ANSI standards.",
+        "Report suspected industrial effluent or dumping to environmental regulators (e.g. LASWARCO / State Ministry of Environment)."
+      ],
+      caution: "Clear water does not mean PFAS-free water. Industrial runoff requires certified laboratory analysis."
+    },
+    nature: {
+      label: "Nature-based water defenses (NBS)",
+      title: "Protect local catchments and manage domestic runoff.",
+      summary: "Vegetative buffers, vetiver grass hedgerows, and constructed wetland swales prevent plastic debris, sediment, and fertilizers from washing into community wells.",
+      steps: [
+        "Plant Vetiver grass or native deep-rooted vegetation around borehole perimeters (15–30 meters) to absorb agricultural runoff and trap sediment.",
+        "Construct simple gravel-sand-reed bio-retention swales for household greywater to reduce untreated wastewater entering waterways.",
+        "Protect coastal mangroves and riverbank flora from deforestation to preserve natural water filtration zones."
+      ],
+      caution: "Nature-based solutions protect water sources from incoming catchment pollution; they do not disinfect raw surface water at point of consumption."
     }
   };
 
@@ -695,3 +732,8 @@
     });
   }
 })();
+
+
+
+
+

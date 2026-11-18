@@ -2,7 +2,7 @@
 (function () {
   "use strict";
 
-  var storageKey = "aquavanguard-community-v1";
+  var storageKey = "AquaVanguard-community-v1";
 
   function readState() {
     try {
@@ -205,3 +205,8 @@
     counts: counts
   };
 })();
+
+
+
+
+

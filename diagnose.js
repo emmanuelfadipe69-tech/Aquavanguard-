@@ -85,7 +85,8 @@
       smell: selectedValue("smell"),
       pollution: selectedValue("pollution"),
       flooding: selectedValue("flooding"),
-      recentRain: selectedValue("recentRain")
+      recentRain: selectedValue("recentRain"),
+      emerging: selectedValue("emerging")
     };
   }
 
@@ -340,3 +341,8 @@
     });
   }
 })();
+
+
+
+
+

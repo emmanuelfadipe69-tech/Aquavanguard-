@@ -338,7 +338,7 @@ html.intro-on body {
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    max-width: 1100px;
+    max-width: 100%; max-width: 1200px;
     margin: 0 auto;
     padding: 1rem 1.25rem;
 }
@@ -433,7 +433,7 @@ html.intro-on body {
 }
 
 main {
-    max-width: 1100px;
+    max-width: 100%; max-width: 1200px;
     margin: 0 auto;
     padding: 0 1.25rem;
 }
@@ -3213,7 +3213,7 @@ a.stat:active {
 
 .verify-page main,
 .report-page main {
-    max-width: 900px;
+    max-width: 100%; max-width: 1200px;
 }
 
 .verify-progress {
@@ -4311,3 +4311,77 @@ a.stat:active {
         max-height: 280px;
     }
 }
+
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+    /* Stack Grids */
+    .map-layout {
+        display: flex;
+        flex-direction: column !important;
+    }
+    .map-canvas-wrap {
+        width: 100% !important;
+    }
+    .map-sidebar {
+        width: 100% !important;
+    }
+
+    /* Map Fixes */
+    .source-map, .report-map {
+        height: 400px !important;
+    }
+
+    /* Navigation */
+    .site-header {
+        flex-wrap: wrap;
+    }
+    .nav {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding-top: 1rem;
+    }
+    .nav.is-open {
+        display: flex;
+    }
+    .menu-toggle {
+        display: block;
+    }
+
+    /* Buttons */
+    .detail-action {
+        width: 100%;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+    
+    /* General stacking */
+    .steps, .impact-grid, .offline-directory-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+.menu-toggle { display: none; background: none; border: 1px solid var(--card-border); color: var(--white); padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; }
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+    .site-header { flex-direction: column; align-items: flex-start; }
+    .nav { display: none; width: 100%; flex-direction: column; gap: 10px; padding-top: 10px; }
+    .nav.is-open { display: flex; }
+    .menu-toggle { display: block; margin-top: 10px; }
+
+    .map-layout, .impact-grid, .steps, .stats {
+        display: flex !important;
+        flex-direction: column !important;
+        grid-template-columns: 1fr !important;
+        width: 100% !important;
+    }
+    
+    .source-map, .report-map { height: 360px !important; }
+    
+    body { padding: 0 10px; }
+    .btn { padding: 12px 16px; font-size: 1rem; }
+}
+

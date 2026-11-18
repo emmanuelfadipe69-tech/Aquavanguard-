@@ -166,3 +166,6 @@ The active app service worker is [`sw.js`](sw.js). It caches the local app pages
 - Internet access is needed for third-party map tiles, YouTube playback, and linked external resources. Cached app pages and bundled guide content are the offline-focused parts.
 - The map uses Leaflet from a CDN and Esri-hosted map tiles. Video playback uses YouTube embeds. Those external services may be unavailable, change, or apply their own usage and availability rules.
 - The interface uses responsive layouts, semantic forms, visible keyboard focus, and status announcements for important dynamic updates. At 700px and narrower, the header menu exposes all six main destinations; forms and map details reflow for phones, and the footer links remain available. The home-page fact ticker respects the reduced-motion preference.
+
+
+

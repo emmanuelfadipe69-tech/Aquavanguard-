@@ -45,6 +45,14 @@
   }
 
   var waterFacts = [
+    { text: "In 2025, Xylem prevented over 13 billion cubic meters of polluted water from entering communities and waterways.", source: "Xylem Sustainability Report (2025)", sourceUrl: "https://www.xylem.com", topic: "Global action and impact" },
+    { text: "In 2024, the US EPA established strict nationwide drinking-water standards for PFAS ('forever chemicals') to protect ~100 million people.", source: "US EPA / WHO (2024)", sourceUrl: "https://www.epa.gov/sdwa/and-polyfluoroalkyl-substances-pfas", topic: "Emerging contaminants" },
+    { text: "WHO has prioritized 18 PFAS compounds for active global health-risk assessment due to links with immune, developmental, and organ health.", source: "WHO (2026)", sourceUrl: "https://www.who.int/activities/assessing-the-occurrence-and-human-health-risk-of-per-and-polyfluoroalkyl-substances-(pfas)", topic: "Emerging contaminants" },
+    { text: "Globally, only 56% of domestic wastewater is safely treated before release into nature, limiting reuse and stressing ecosystems.", source: "UN-Water (2024)", sourceUrl: "https://www.unwater.org/water-facts/water-quality-and-wastewater", topic: "Wastewater and ecosystems" },
+    { text: "At least 1.7 billion people worldwide rely on drinking-water sources contaminated with fecal matter.", source: "WHO (2026)", sourceUrl: "https://www.who.int/news-room/fact-sheets/detail/drinking-water", topic: "Contamination and pollution" },
+    { text: "Microbially contaminated drinking water contributes to approximately 505,000 diarrheal deaths annually worldwide.", source: "WHO (2026)", sourceUrl: "https://www.who.int/news-room/fact-sheets/detail/drinking-water", topic: "Health and sanitation" },
+    { text: "Boiling water does NOT remove PFAS, heavy metals, or toxic chemicals; boiling evaporates clean steam and concentrates chemical toxins.", source: "US EPA / CDC", sourceUrl: "https://www.epa.gov/sdwa/and-polyfluoroalkyl-substances-pfas", topic: "Emerging contaminants" },
+    { text: "Microplastics in rivers and lakes act as environmental sponges, absorbing and concentrating persistent organic pollutants and PFAS.", source: "UNEP / WHO", sourceUrl: "https://www.who.int", topic: "Emerging contaminants" },
     { text: "Oil and fuel can contaminate water and may make boiling unsafe as a response.", source: "CDC", sourceUrl: "https://www.cdc.gov/water-emergency/about/index.html", topic: "Contamination and pollution" },
     { text: "Floodwater can carry sewage, chemicals, and other hazards into wells and water systems.", source: "CDC", sourceUrl: "https://www.cdc.gov/water-emergency/about/index.html", topic: "Contamination and pollution" },
     { text: "Clear water can still contain germs or chemicals that affect health.", source: "WHO", sourceUrl: "https://www.who.int/news-room/fact-sheets/detail/drinking-water", topic: "Contamination and pollution" },
@@ -299,3 +307,8 @@
   });
   setTimeout(finish, 3500); // 3.5s + 0.5s fade = 4.0s
 })();
+
+
+
+
+

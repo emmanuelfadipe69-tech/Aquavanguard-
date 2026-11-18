@@ -160,6 +160,7 @@
     }
   }
 
+
   function updateBaseline() {
     beforeValueInput.value = "";
     beforeDateInput.value = "";
@@ -227,6 +228,75 @@
       console.error("AquaVanguard verify: retest could not be saved.", error);
     }
   });
+  var exportDossierBtn = document.getElementById("export-dossier-btn");
+  if (exportDossierBtn) {
+    exportDossierBtn.addEventListener("click", function () {
+      try {
+        var reports = window.AquaVanguardStore.listReports();
+        var verifications = window.AquaVanguardStore.listVerifications();
+        var printWindow = window.open("", "_blank");
+        if (!printWindow) {
+          alert("Pop-up blocked. Please allow pop-ups to export the community water dossier.");
+          return;
+        }
+
+        var html = "<!DOCTYPE html><html><head><title>AquaVanguard</title><style>";
+        html += "body { font-family: Arial, sans-serif; line-height: 1.5; color: #111; padding: 2rem; max-width: 800px; margin: 0 auto; }";
+        html += "h1 { color: #0a5266; border-bottom: 2px solid #0a5266; padding-bottom: 0.5rem; }";
+        html += "h2 { color: #176798; margin-top: 1.5rem; }";
+        html += ".meta { background: #f0fbff; padding: 1rem; border-left: 4px solid #0a5266; margin-bottom: 1.5rem; }";
+        html += "table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }";
+        html += "th, td { border: 1px solid #ccc; padding: 0.75rem; text-align: left; font-size: 0.9rem; }";
+        html += "th { background: #e2f5fc; color: #0a5266; }";
+        html += ".notice { font-size: 0.85rem; color: #555; background: #fff8e6; padding: 0.75rem; border: 1px solid #ffeeba; }";
+        html += "@media print { body { padding: 0; } button { display: none; } }</style></head><body>";
+        html += "<h1>AquaVanguard &middot; Official Community Water Dossier</h1>";
+        html += "<div class='meta'><p><strong>Generated on:</strong> " + new Date().toLocaleDateString() + "</p>";
+        html += "<p><strong>Target Regulators:</strong> Lagos State Water Regulatory Commission (LASWARCO) / Ondo State Water Corporation / LGA Environmental Health Officers.</p></div>";
+        html += "<h2>1. Community Water Source Observations (" + reports.length + " saved)</h2>";
+        if (reports.length === 0) {
+          html += "<p>No community reports saved on this device.</p>";
+        } else {
+          html += "<table><thead><tr><th>Source Name</th><th>Area / State</th><th>Type</th><th>Reported Status</th><th>Observations</th></tr></thead><tbody>";
+          reports.forEach(function (r) {
+            html += "<tr><td>" + escapeHtml(r.name) + "</td><td>" + escapeHtml(r.area) + " (" + escapeHtml(r.state) + ")</td><td>" + escapeHtml(r.type) + "</td><td>" + escapeHtml(r.status) + "</td><td>" + escapeHtml(r.observation || "None") + "</td></tr>";
+          });
+          html += "</tbody></table>";
+        }
+
+        html += "<h2>2. Retests & Comparative Evidence (" + verifications.length + " recorded)</h2>";
+        if (verifications.length === 0) {
+          html += "<p>No retests recorded on this device yet.</p>";
+        } else {
+          html += "<table><thead><tr><th>Source</th><th>Parameter</th><th>Method</th><th>Before</th><th>After</th><th>Retest Date</th></tr></thead><tbody>";
+          verifications.forEach(function (v) {
+            html += "<tr><td>" + escapeHtml(v.sourceName) + "</td><td>" + escapeHtml(v.parameter) + "</td><td>" + escapeHtml(v.method) + "</td><td>" + escapeHtml(v.beforeValue) + "</td><td>" + escapeHtml(v.afterValue) + "</td><td>" + escapeHtml(v.retestDate) + "</td></tr>";
+          });
+          html += "</tbody></table>";
+        }
+
+        html += "<div class='notice'><strong>Disclaimer:</strong> This dossier contains citizen-generated observations and self-reported retest logs collected via AquaVanguard. It is designed to assist local water officers and public health authorities in prioritizing inspection, testing, and remediation sites.</div>";
+        html += "<div style='margin-top: 2rem; text-align: center;'><button onclick='window.print()' style='padding: 0.75rem 1.5rem; background: #0a5266; color: #fff; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer;'>Print / Save as PDF</button></div>";
+        html += "</body></html>";
+
+        printWindow.document.open();
+        printWindow.document.write(html);
+        printWindow.document.close();
+      } catch (err) {
+        console.error("Dossier export error:", err);
+        alert("Could not generate dossier.");
+      }
+    });
+  }
+
+  function escapeHtml(str) {
+    return String(str || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
 
   refresh();
 })();
+
+
+
+
+
